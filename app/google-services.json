@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1026365457161",
+    "firebase_url": "https://lunchbox-13b98.firebaseio.com",
+    "project_id": "lunchbox-13b98",
+    "storage_bucket": "lunchbox-13b98.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1026365457161:android:8f5fd2573e724fdedc89d8",
+        "android_client_info": {
+          "package_name": "com.vidya.lunchbox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1026365457161-b8fbp5vh0i91l6gt5uodi3dedscnckn2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCynU0hbYqSiNH6KhMvk_TAg3MUr9C1rAs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1026365457161-b8fbp5vh0i91l6gt5uodi3dedscnckn2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
