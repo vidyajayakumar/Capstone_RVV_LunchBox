@@ -93,8 +93,8 @@ public class SignupActivity extends AppCompatActivity {
                     if (password.equals(password2)) {
 //                        authUser(mail, password);
                         toastMessage("Register Successul");
-//                        Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-//                        startActivity(intent);
+                        Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                        startActivity(intent);
                     } else {
                         toastMessage("Passwords must be the same!");
 
@@ -234,7 +234,6 @@ public class SignupActivity extends AppCompatActivity {
                 }
                 if (option[which].equals("Gallery")) {
                     GalleryIntent();
-
                 }
             }
         });
@@ -312,8 +311,8 @@ public class SignupActivity extends AppCompatActivity {
                             toastMessage("Please enter valid credentials");
                         } else {
                             toastMessage("Registered Successful");
-//                            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-//                            startActivity(intent);
+                            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                            startActivity(intent);
                         }
                     }
                 });
