@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">LunchBox</string>
+    <string name="app_name">Lunch Box</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_name">Fullname</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
 </resources>
