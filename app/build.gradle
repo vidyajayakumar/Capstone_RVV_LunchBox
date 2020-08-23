@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.vidya.lunchbox"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -24,25 +24,36 @@ android {
     }
 }
 
+ext {
+    permissionDispatcherVersion = "3.2.0"
+    supportLibVersion = "28.0.0"
+    googlePlayVersion = "15.0.0"
+}
+
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    implementation 'com.google.android.material:material:1.0.0'
+
+    implementation "com.google.android.gms:play-services-maps:$googlePlayVersion"
+    implementation "com.google.android.gms:play-services-location:$googlePlayVersion"
+    implementation 'com.google.code.gson:gson:2.6.2'
+
     implementation 'com.google.firebase:firebase-analytics:17.5.0'
 
-    // Firebase Database
-    implementation 'com.google.firebase:firebase-database:19.3.1'
+    implementation "com.google.firebase:firebase-auth:19.1.0"
+    implementation 'com.google.firebase:firebase-database:19.2.0'
 
-    //circular image View
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
-    //firebase
-    implementation 'com.google.firebase:firebase-auth:19.3.0'
-
-//    implementation 'com.google.firebase:firebase-database:16.0.1'
-    implementation 'com.firebaseui:firebase-ui-auth:6.3.0'
-    implementation 'com.google.firebase:firebase-core:17.5.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'com.karumi:dexter:5.0.0'
+    implementation files('libs/json-simple-1.1.1.jar')
+    implementation 'com.github.bumptech.glide:glide:3.6.0'
+    implementation 'com.braintreepayments:card-form:4.2.0'
 }
