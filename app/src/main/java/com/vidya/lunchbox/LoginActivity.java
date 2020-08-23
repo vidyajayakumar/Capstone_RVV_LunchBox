@@ -1,103 +1,153 @@
-package com.vidya.lunchbox;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.method.PasswordTransformationMethod;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Toast;
-
+import com.vidya.lunchbox.R;
+import com.vidya.lunchbox.helper.Functions;
+import com.vidya.lunchbox.helper.SessionManager;
+import com.vidya.lunchbox.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText txtUsername, txtPassword;
-    private Button btnLogIn, btnsignup;
-    private CheckBox cbViewPassword;
+    private MaterialButton btnLogin, btnLinkToRegister;
+    private TextInputLayout inputEmail, inputPassword;
+
+    private FirebaseAuth mAuth;
+    private ProgressDialog progressDialog;
+    private DatabaseReference mRef;
+
+    private SessionManager session;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
-        FirebaseApp.initializeApp(getApplicationContext());
-        initviews();
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        mRef = database.getReference();
+
+        inputEmail = findViewById(R.id.lTextEmail);
+        inputPassword = findViewById(R.id.lTextPassword);
+        btnLogin = findViewById(R.id.btnLogin);
+        btnLinkToRegister = findViewById(R.id.btnLinkToRegisterScreen);
+        progressDialog = new ProgressDialog(this);
+
+        mAuth = FirebaseAuth.getInstance();
+        session = new SessionManager(getApplicationContext());
+
+/*        if (session.isLoggedIn()) {
+            Intent i = new Intent(LoginActivity.this, CategoryListActivity.class);
+            startActivity(i);
+            finish();
+        }*/
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        btnLogin.setOnClickListener(this);
+        btnLinkToRegister.setOnClickListener(this);
     }
 
-    private void initviews() {
-        txtUsername = (EditText) findViewById(R.id.txtUsername);
-        txtPassword = (EditText) findViewById(R.id.txtPassword);
-        cbViewPassword = (CheckBox) findViewById(R.id.cbViewPassword);
-        cbViewPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (cbViewPassword.isChecked()) {
-                    txtPassword.setTransformationMethod(null);
-                } else {
-                    txtPassword.setTransformationMethod(new PasswordTransformationMethod());
-                }
-            }
-        });
-        btnLogIn = (Button) findViewById(R.id.btnLogIn);
-        btnLogIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String username = txtUsername.getText().toString();
-                String password = txtPassword.getText().toString();
-                if (username.length() > 0 && password.length() > 0) {
-                    toastMessage("Login Successul");
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-//                    authenticateUser(username, password);
-                } else
-                    toastMessage("Please enter all the details");
-            }
-        });
-        btnsignup = (Button)
+    @Override
+    public void onClick(View v) {
 
-                findViewById(R.id.btnsignup);
-        btnsignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-                startActivity(intent);
-            }
-        });
+        switch (v.getId()) {
+            case R.id.btnLogin:
+                loginUser();
+                break;
+            case R.id.btnLinkToRegisterScreen:
+                Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(i);
+                break;
+            default:
+                break;
+        }
     }
 
-    public void authenticateUser(final String email, String password) {
+    private void loginUser() {
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        //authenticate user
-        auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+        Functions.hideSoftKeyboard(LoginActivity.this);
+
+        final String email = inputEmail.getEditText().getText().toString().trim();
+        final String password = inputPassword.getEditText().getText().toString().trim();
+
+        progressDialog.setMessage("Registering Please Wait...");
+        progressDialog.show();
+
+        if (!email.isEmpty() && !password.isEmpty()) {
+            if (Functions.isValidEmailAddress(email)) {
+
+                mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                progressDialog.dismiss();
+                                if (task.isSuccessful()) {
+                                    progressDialog.cancel();
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    saveUserData(user.getUid());
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
+                            }
+                        });
+
+            } else {
+                Toast.makeText(getApplicationContext(), "Email is not valid!", Toast.LENGTH_SHORT).show();
+                progressDialog.cancel();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "Please enter the credentials!", Toast.LENGTH_SHORT).show();
+            progressDialog.cancel();
+        }
+    }
+
+    private void saveUserData(String userId) {
+
+        mRef.child(userId).getRoot();
+        mRef.child("users").child(userId)
+                .addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            // there was an error
-                            toastMessage("Please enter valid credentials");
-                        } else {
-                            toastMessage("Login Successful");
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            User user = dataSnapshot.getValue(User.class);
+                            session.setUserDate(user);
+                            session.setLogin(true);
+                            Intent i = new Intent(LoginActivity.this, CategoryListActivity.class);
+                            startActivity(i);
+                            finish();
                         }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.d("Databaseerror",databaseError+"");
                     }
                 });
     }
-
-    private void toastMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-}
