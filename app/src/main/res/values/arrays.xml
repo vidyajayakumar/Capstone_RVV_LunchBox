@@ -67,45 +67,45 @@
         <item>5</item>
     </integer-array>
 
-    <!--Bevarages-->
-    <array name="bevarages_imgs">
+    <!--beverages-->
+    <array name="beverages_imgs">
         <item>@drawable/spiced_coffee</item>
         <item>@drawable/lemon_tea</item>
         <item>@drawable/vanilla_sweet_cream</item>
     </array>
 
-    <string-array name="bevarages_names">
+    <string-array name="beverages_names">
         <item>"Spiced Coffee"</item>
         <item>"Leamon Tea"</item>
         <item>"Vanilla Sweet Cream"</item>
     </string-array>
 
-    <string-array name="bevarages_desc">
+    <string-array name="beverages_desc">
         <item>"Hot"</item>
         <item>"Hot"</item>
         <item>"Cold"</item>
     </string-array>
 
-    <integer-array name="bevarages_cost">
+    <integer-array name="beverages_cost">
         <item>2</item>
         <item>2</item>
         <item>4</item>
     </integer-array>
 
-    <!--Apetizers-->
-    <array name="apetizers_imgs">
+    <!--Appetizers-->
+    <array name="appetizers_imgs">
         <item>@drawable/tourtiere_spring_rolls</item>
     </array>
 
-    <string-array name="apetizers_names">
+    <string-array name="appetizers_names">
         <item>"Tourtiere Spring Rolls"</item>
     </string-array>
 
-    <string-array name="apetizers_desc">
-        <item>"Apetizers"</item>
+    <string-array name="appetizers_desc">
+        <item>"appetizers"</item>
     </string-array>
 
-    <integer-array name="apetizers_cost">
+    <integer-array name="appetizers_cost">
         <item>3</item>
     </integer-array>
 
