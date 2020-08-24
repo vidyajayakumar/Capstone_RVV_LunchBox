@@ -149,7 +149,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Log.d("Databaseerror",databaseError+"");
+                        Log.d("Databaseerror", databaseError + "");
                     }
                 });
     }
+}

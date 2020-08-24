@@ -160,10 +160,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case CategoryNames.DESERTS_CATEGORY:
 
-                mNamesArray = getResources().getStringArray(R.array.apetizers_names);
-                mDescriptionArray = getResources().getStringArray(R.array.apetizers_desc);
-                mCostArray = getResources().getIntArray(R.array.apetizers_cost);
-                mimagesArray = getResources().obtainTypedArray(R.array.apetizers_imgs);
+                mNamesArray = getResources().getStringArray(R.array.appetizers_names);
+                mDescriptionArray = getResources().getStringArray(R.array.appetizers_desc);
+                mCostArray = getResources().getIntArray(R.array.appetizers_cost);
+                mimagesArray = getResources().obtainTypedArray(R.array.appetizers_imgs);
 
                 break;
             case CategoryNames.BEVARAGES_CATEGORY:
@@ -176,10 +176,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case CategoryNames.APETIZERS_CATEGORY:
 
-                mNamesArray = getResources().getStringArray(R.array.bevarages_names);
-                mDescriptionArray = getResources().getStringArray(R.array.bevarages_desc);
-                mCostArray = getResources().getIntArray(R.array.bevarages_cost);
-                mimagesArray = getResources().obtainTypedArray(R.array.bevarages_imgs);
+                mNamesArray = getResources().getStringArray(R.array.beverages_names);
+                mDescriptionArray = getResources().getStringArray(R.array.beverages_desc);
+                mCostArray = getResources().getIntArray(R.array.beverages_cost);
+                mimagesArray = getResources().obtainTypedArray(R.array.beverages_imgs);
 
                 break;
             default:

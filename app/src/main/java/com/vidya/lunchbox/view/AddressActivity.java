@@ -309,13 +309,13 @@ public class AddressActivity extends AppCompatActivity implements OnMapReadyCall
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
                 }
                 strAdd = strReturnedAddress.toString();
-                Log.w("My Current loction address", strReturnedAddress.toString());
+                Log.w("My Current loc address", strReturnedAddress.toString());
             } else {
-                Log.w("My Current loction address", "No Address returned!");
+                Log.w("My Current loc address", "No Address returned!");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.w("My Current loction address", "Canont get Address!");
+            Log.w("My Current loc address", "Canont get Address!");
         }
         return strAdd;
     }
