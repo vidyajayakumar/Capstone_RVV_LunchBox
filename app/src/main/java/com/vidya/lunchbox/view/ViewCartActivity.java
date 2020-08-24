@@ -32,6 +32,7 @@ import java.util.Map;
 
 public class ViewCartActivity extends AppCompatActivity {
 
+    ArrayList<Cart> mItems;
     private Toolbar toolbar;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView mRecyclerView;
@@ -40,10 +41,7 @@ public class ViewCartActivity extends AppCompatActivity {
     private MaterialButton continuebutton, checkout;
     private ImageView emptyCart;
     private TextView emptyCartText, total_price;
-
     private int total = 0;
-
-    ArrayList<Cart> mItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,13 +170,13 @@ public class ViewCartActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (mItems.size() > 0) {
 
-                    showAlertDialog();
-                 /*   MainActivity.cs.clearCart(ViewCartActivity.this);
+//                    showAlertDialog();
+                    MainActivity.cs.clearCart(ViewCartActivity.this);
                     Intent i = new Intent(ViewCartActivity.this, PaymentActivity.class);
                     // set the new task and clear flags
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);
-                    finish(); // call this to finish the current activity*/
+                    finish(); // call this to finish the current activity
                 }
             }
         });
@@ -207,7 +205,7 @@ public class ViewCartActivity extends AppCompatActivity {
         return true;
     }
 
-    public void showAlertDialog(){
+    public void showAlertDialog() {
 
         AlertDialog alertDialog = new AlertDialog.Builder(
                 ViewCartActivity.this).create();
