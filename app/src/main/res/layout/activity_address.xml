@@ -50,8 +50,8 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/btn_nearbyStores"
         android:layout_below="@+id/ll_search"
         tools:context="com.onestore.view.AddressActivity" />
+<!--    android:layout_above="@+id/btn_nearbyStores"-->
 
 </RelativeLayout>
