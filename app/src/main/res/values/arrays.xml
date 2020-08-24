@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Maincourse-->
+    <array name="maincourse_imgs">
+        <item>@drawable/ravioli</item>
+        <item>@drawable/pepperoni_pizza</item>
+        <item>@drawable/hyderabadi_chicken_biryani</item>
+        <item>@drawable/hamburger</item>
+        <item>@drawable/vegan_cream_cheese_veggie</item>
+    </array>
+
+    <string-array name="maincourse_names">
+        <item>"Ravioli pasta"</item>
+        <item>"Pepperoni Pizza"</item>
+        <item>"Hyderabadi Chicken Biriyani"</item>
+        <item>"Hamburger"</item>
+        <item>"Vegan Cream Cheese Veggie Wrap"</item>
+    </string-array>
+
+    <string-array name="maincourse_desc">
+        <item>"Pasta"</item>
+        <item>"Pizza"</item>
+        <item>"Rice"</item>
+        <item>"Burger"</item>
+        <item>"Wraps"</item>
+    </string-array>
+
+    <integer-array name="maincourse_cost">
+        <item>8</item>
+        <item>10</item>
+        <item>12</item>
+        <item>8</item>
+        <item>6</item>
+    </integer-array>
+
+    <!--DESERTS-->
+    <array name="desert_imgs">
+        <item>@drawable/tomato_gazpacho_soup</item>
+        <item>@drawable/chicken_bacon_soup</item>
+        <item>@drawable/tiger_tail_ice_cream</item>
+        <item>@drawable/saskatoon_berry_pie</item>
+        <item>@drawable/nanaimo_bar</item>
+    </array>
+
+    <string-array name="desert_names">
+        <item>"Tomato Gazpacho"</item>
+        <item>"Chicken Bacon Soup"</item>
+        <item>"Tiger Tail Ice Cream"</item>
+        <item>"Saskatoon Berry Pie"</item>
+        <item>"Nanaimo Bar"</item>
+    </string-array>
+
+    <string-array name="desert_desc">
+        <item>"Soup"</item>
+        <item>"Soup"</item>
+        <item>"Ice Cream"</item>
+        <item>"Pie"</item>
+        <item>"Cakes/Pastries"</item>
+    </string-array>
+
+    <integer-array name="desert_cost">
+        <item>5</item>
+        <item>7</item>
+        <item>5</item>
+        <item>8</item>
+        <item>5</item>
+    </integer-array>
+
+    <!--Bevarages-->
+    <array name="bevarages_imgs">
+        <item>@drawable/spiced_coffee</item>
+        <item>@drawable/lemon_tea</item>
+        <item>@drawable/vanilla_sweet_cream</item>
+    </array>
+
+    <string-array name="bevarages_names">
+        <item>"Spiced Coffee"</item>
+        <item>"Leamon Tea"</item>
+        <item>"Vanilla Sweet Cream"</item>
+    </string-array>
+
+    <string-array name="bevarages_desc">
+        <item>"Hot"</item>
+        <item>"Hot"</item>
+        <item>"Cold"</item>
+    </string-array>
+
+    <integer-array name="bevarages_cost">
+        <item>2</item>
+        <item>2</item>
+        <item>4</item>
+    </integer-array>
+
+    <!--Apetizers-->
+    <array name="apetizers_imgs">
+        <item>@drawable/tourtiere_spring_rolls</item>
+    </array>
+
+    <string-array name="apetizers_names">
+        <item>"Tourtiere Spring Rolls"</item>
+    </string-array>
+
+    <string-array name="apetizers_desc">
+        <item>"Apetizers"</item>
+    </string-array>
+
+    <integer-array name="apetizers_cost">
+        <item>3</item>
+    </integer-array>
+
+</resources>
