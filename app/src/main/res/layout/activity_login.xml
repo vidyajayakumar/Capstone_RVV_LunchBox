@@ -57,6 +57,6 @@
         android:text="Register"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimary"
-        android:textSize="13sp" />
+        android:textSize="15sp" />
 
 </LinearLayout>
