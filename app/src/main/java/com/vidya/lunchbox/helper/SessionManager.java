@@ -46,7 +46,7 @@ public class SessionManager {
         return pref.getBoolean(KEY_IS_LOGGEDIN, false);
     }
 
-    public void setUserDate(User user) {
+    public void setUserData(User user) {
 
         Gson gson = new Gson();
         String json = gson.toJson(user); // myObject - instance of MyObject

@@ -2,9 +2,17 @@ package com.vidya.lunchbox.model;
 
 public class User {
 
+    String uid;
     String name;
     String email;
     String password;
+
+    public User(String uid, String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.uid = uid;
+    }
 
     public User() {
     }
@@ -13,6 +21,14 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getName() {

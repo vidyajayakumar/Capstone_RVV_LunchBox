@@ -63,7 +63,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnLogin:
+            case R.id.btnLinkToLoginScreen:
                 Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(i);
                 finish();
@@ -106,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(RegisterActivity.this, "Email already registered", Toast.LENGTH_LONG).show();
+                                Toast.makeText(RegisterActivity.this, "Email already registered or Password is less than 6 character", Toast.LENGTH_LONG).show();
                             }
                         });
             } else {
@@ -118,9 +118,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void saveUserData(String userId, String name, String email, String password) {
-        User userInformation = new User(name, email, password);
+        User userInformation = new User(userId,name, email, password);
         mRef.child("users").child(userId).setValue(userInformation);
-        session.setUserDate(userInformation);
+        session.setUserData(userInformation);
         session.setLogin(true);
         Toast.makeText(getApplicationContext(), "User registered successfully", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(RegisterActivity.this, CategoryListActivity.class);

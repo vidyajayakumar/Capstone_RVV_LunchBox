@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         final String email = inputEmail.getEditText().getText().toString().trim();
         final String password = inputPassword.getEditText().getText().toString().trim();
 
-        progressDialog.setMessage("Registering Please Wait...");
+        progressDialog.setMessage("Logging-In Please Wait...");
         progressDialog.show();
 
         if (!email.isEmpty() && !password.isEmpty()) {
@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
                             User user = dataSnapshot.getValue(User.class);
-                            session.setUserDate(user);
+                            session.setUserData(user);
                             session.setLogin(true);
                             Intent i = new Intent(LoginActivity.this, CategoryListActivity.class);
                             startActivity(i);
