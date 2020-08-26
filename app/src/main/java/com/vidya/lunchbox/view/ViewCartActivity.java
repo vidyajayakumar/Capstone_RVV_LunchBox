@@ -41,7 +41,7 @@ public class ViewCartActivity extends AppCompatActivity {
     private MaterialButton continuebutton, checkout;
     private ImageView emptyCart;
     private TextView emptyCartText, total_price;
-    private int total = 0;
+    private double total = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,14 +109,14 @@ public class ViewCartActivity extends AppCompatActivity {
                         case "product qty":
                             cartitem.setQuantity(Integer.parseInt(innerEntry.getValue()));
                             break;
-                        case "product strength":
-                            cartitem.setmStrength(innerEntry.getValue());
-                            break;
+//                        case "product strength":
+//                            cartitem.setmStrength(innerEntry.getValue());
+//                            break;
                         case "product price":
-                            cartitem.setPrice(Integer.parseInt(innerEntry.getValue()));
+                            cartitem.setPrice(Double.parseDouble(innerEntry.getValue()));
                             break;
                         case "product thumbnail":
-                            cartitem.setThumbnail(Integer.parseInt(innerEntry.getValue()));
+                            cartitem.setThumbnail(innerEntry.getValue());
                             break;
                     }
                     Log.e("Total", total + "");

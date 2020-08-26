@@ -5,19 +5,19 @@ public class Cart implements java.io.Serializable {
 
     private String mProductid;
     private String mDesc;
-    private int mPrice;
+    private double mPrice;
     private String mName;
-    private int mThumbnail;
+    private String mThumbnail;
     private String mStrength;
     private int mQuantity;
 
-    public String getmStrength() {
-        return mStrength;
-    }
-
-    public void setmStrength(String mStrength) {
-        this.mStrength = mStrength;
-    }
+//    public String getmStrength() {
+//        return mStrength;
+//    }
+//
+//    public void setmStrength(String mStrength) {
+//        this.mStrength = mStrength;
+//    }
 
     public String getProductid() {
         return mProductid;
@@ -43,19 +43,19 @@ public class Cart implements java.io.Serializable {
         this.mDesc = desc;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return mPrice;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.mPrice = price;
     }
 
-    public int getThumbnail() {
+    public String getThumbnail() {
         return mThumbnail;
     }
 
-    public void setThumbnail(int thumbnail) {
+    public void setThumbnail(String thumbnail) {
         this.mThumbnail = thumbnail;
     }
 
