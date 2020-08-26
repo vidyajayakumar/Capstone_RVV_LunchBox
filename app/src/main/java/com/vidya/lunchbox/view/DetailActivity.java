@@ -18,8 +18,10 @@ import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.vidya.lunchbox.R;
 import com.vidya.lunchbox.cart.Carteasy;
+import com.vidya.lunchbox.model.ItemMenu;
 import com.vidya.lunchbox.model.Items;
 
 import java.util.ArrayList;
@@ -29,10 +31,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     private Button addtocart;
     private Toolbar toolbar;
-    private int id;
 
-    private ArrayList<Items> mItems;
-    private Items myNewItem;
+    private ItemMenu mItem;
 
     public ImageView imgThumbnail;
     public TextView name;
@@ -62,8 +62,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            id = extras.getInt("id");
-            mItems = (ArrayList<Items>) getIntent().getSerializableExtra("mItems");
+            mItem =  getIntent().getParcelableExtra("mItem");
         }
 
         imgThumbnail = (ImageView) findViewById(R.id.img_thumbnail);
@@ -71,11 +70,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         description = (TextView) findViewById(R.id.description);
         price = (TextView) findViewById(R.id.price);
 
-        myNewItem = mItems.get(id);
-        name.setText(myNewItem.getName());
-        description.setText(myNewItem.getDescription());
-        price.setText("$" + Integer.toString(myNewItem.getPrice()));
-        imgThumbnail.setImageResource(myNewItem.getThumbnail());
+        name.setText(mItem.getItemName());
+        description.setText(mItem.getItemDesc());
+        price.setText("$".concat(String.valueOf(mItem.getPrice())));
+        Glide.with(this).load(mItem.getItemImage()).into(imgThumbnail);
 
         /* for fill your Spinner */
         QuantityArray = new ArrayList<Integer>();
@@ -111,20 +109,20 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         if (v.getId() == R.id.addtocart) {
 
             //Set size, Quantity and Color
-            myNewItem.setmStrength(strengthSelected);
-            myNewItem.setQuantity(quantitySelected);
+//            myNewItem.setmStrength(strengthSelected);
+//            myNewItem.setQuantity(quantitySelected);
 
 
             //Using carteasy - begin
 
             Carteasy cs = new Carteasy();
-            cs.add(myNewItem.getProductid(), "product id", myNewItem.getProductid());
-            cs.add(myNewItem.getProductid(), "product name", myNewItem.getName());
-            cs.add(myNewItem.getProductid(), "product desc", myNewItem.getDescription());
-            cs.add(myNewItem.getProductid(), "product price", myNewItem.getPrice());
-            cs.add(myNewItem.getProductid(), "product thumbnail", myNewItem.getThumbnail());
-            cs.add(myNewItem.getProductid(), "product strength", myNewItem.getmStrength());
-            cs.add(myNewItem.getProductid(), "product qty", myNewItem.getQuantity());
+            cs.add(mItem.getItemId(), "product id", mItem.getItemId());
+            cs.add(mItem.getItemId(), "product name", mItem.getItemName());
+            cs.add(mItem.getItemId(), "product desc", mItem.getItemDesc());
+            cs.add(mItem.getItemId(), "product price", mItem.getPrice());
+            cs.add(mItem.getItemId(), "product thumbnail", mItem.getItemImage());
+//            cs.add(mItem.getItemId(), "product strength", myNewItem.getmStrength());
+            cs.add(mItem.getItemId(), "product qty", quantitySelected);
             cs.commit(getApplicationContext());
             cs.persistData(getApplicationContext(), false);
 
