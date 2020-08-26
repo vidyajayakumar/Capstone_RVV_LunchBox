@@ -18,10 +18,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.vidya.lunchbox.R;
 import com.vidya.lunchbox.adapter.GridAdapter;
 import com.vidya.lunchbox.cart.Carteasy;
 import com.vidya.lunchbox.model.Cart;
+import com.vidya.lunchbox.model.ItemMenu;
 import com.vidya.lunchbox.model.Items;
 import com.vidya.lunchbox.utils.CategoryNames;
 
@@ -30,19 +36,45 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static Carteasy cs;
+    //    String[] mNamesArray;
+//    String[] mDescriptionArray;
+//    int[] mCostArray;
+//    TypedArray mimagesArray;
+    ArrayList<Items> adapterItems;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
     private Toolbar toolbar;
     private ArrayList<Cart> mItems;
-    public static Carteasy cs;
+    //    String newString;
+    private String categoryId;
 
-    String[] mNamesArray;
-    String[] mDescriptionArray;
-    int[] mCostArray;
-    TypedArray mimagesArray;
-    ArrayList<Items> adapterItems;
-    String newString;
+    // function to generate a random string of length n
+    static String getAlphaNumericString(int n) {
+
+        // chose a Character random from this String
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz";
+
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder sb = new StringBuilder(n);
+
+        for (int i = 0; i < n; i++) {
+
+            // generate a random number between
+            // 0 to AlphaNumericString variable length
+            int index
+                    = (int) (AlphaNumericString.length()
+                    * Math.random());
+
+            // add Character one by one in end of sb
+            sb.append(AlphaNumericString
+                    .charAt(index));
+        }
+        return sb.toString();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +82,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Bundle extras = getIntent().getExtras();
-        newString = extras.getString("CategoryName");
-
+        categoryId = extras.getString("CategoryId");
+        adapterItems = new ArrayList<>();
+        getItemMenus();
+        
         getSupportActionBar().hide();
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -74,20 +108,20 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new GridLayoutManager(this, 2);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        addingCategoryItems(newString);
-
-        adapterItems = new ArrayList<Items>();
-        for (int i = 0; i < mCostArray.length; i++) {
-
-            Items species = new Items();
-            species.setProductid(getAlphaNumericString(4));
-            Log.d("random string", species.getProductid());
-            species.setName(mNamesArray[i]);
-            species.setDescription(mDescriptionArray[i]);
-            species.setPrice(mCostArray[i]);
-            species.setThumbnail(mimagesArray.getResourceId(i, -1));
-            adapterItems.add(species);
-        }
+//        addingCategoryItems(newString);
+//
+//        adapterItems = new ArrayList<Items>();
+//        for (int i = 0; i < mCostArray.length; i++) {
+//
+//            Items species = new Items();
+//            species.setProductid(getAlphaNumericString(4));
+//            Log.d("random string", species.getProductid());
+//            species.setName(mNamesArray[i]);
+//            species.setDescription(mDescriptionArray[i]);
+//            species.setPrice(mCostArray[i]);
+//            species.setThumbnail(mimagesArray.getResourceId(i, -1));
+//            adapterItems.add(species);
+//        }
 
         mAdapter = new GridAdapter(this, adapterItems);
         mRecyclerView.setAdapter(mAdapter);
@@ -125,6 +159,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void getItemMenus() {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("itemMenus");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    ItemMenu menu = postSnapshot.getValue(ItemMenu.class);
+                    if (menu.getCatId().equals(categoryId))
+                        adapterItems.add(menu);
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getMessage());
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -147,70 +201,4 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void addingCategoryItems(String categoryName) {
-
-        switch (categoryName) {
-            case CategoryNames.MAINCOURSE_CATEGORY:
-
-                mNamesArray = getResources().getStringArray(R.array.maincourse_names);
-                mDescriptionArray = getResources().getStringArray(R.array.maincourse_desc);
-                mCostArray = getResources().getIntArray(R.array.maincourse_cost);
-                mimagesArray = getResources().obtainTypedArray(R.array.maincourse_imgs);
-
-                break;
-            case CategoryNames.DESERTS_CATEGORY:
-
-                mNamesArray = getResources().getStringArray(R.array.appetizers_names);
-                mDescriptionArray = getResources().getStringArray(R.array.appetizers_desc);
-                mCostArray = getResources().getIntArray(R.array.appetizers_cost);
-                mimagesArray = getResources().obtainTypedArray(R.array.appetizers_imgs);
-
-                break;
-            case CategoryNames.BEVARAGES_CATEGORY:
-
-                mNamesArray = getResources().getStringArray(R.array.desert_names);
-                mDescriptionArray = getResources().getStringArray(R.array.desert_desc);
-                mCostArray = getResources().getIntArray(R.array.desert_cost);
-                mimagesArray = getResources().obtainTypedArray(R.array.desert_imgs);
-
-                break;
-            case CategoryNames.APETIZERS_CATEGORY:
-
-                mNamesArray = getResources().getStringArray(R.array.beverages_names);
-                mDescriptionArray = getResources().getStringArray(R.array.beverages_desc);
-                mCostArray = getResources().getIntArray(R.array.beverages_cost);
-                mimagesArray = getResources().obtainTypedArray(R.array.beverages_imgs);
-
-                break;
-            default:
-                break;
-        }
-
-    }
-
-    // function to generate a random string of length n
-    static String getAlphaNumericString(int n) {
-
-        // chose a Character random from this String
-        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                + "0123456789"
-                + "abcdefghijklmnopqrstuvxyz";
-
-        // create StringBuffer size of AlphaNumericString
-        StringBuilder sb = new StringBuilder(n);
-
-        for (int i = 0; i < n; i++) {
-
-            // generate a random number between
-            // 0 to AlphaNumericString variable length
-            int index
-                    = (int) (AlphaNumericString.length()
-                    * Math.random());
-
-            // add Character one by one in end of sb
-            sb.append(AlphaNumericString
-                    .charAt(index));
-        }
-        return sb.toString();
-    }
 }

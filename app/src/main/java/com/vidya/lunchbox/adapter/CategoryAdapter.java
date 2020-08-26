@@ -11,20 +11,22 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.vidya.lunchbox.R;
 import com.vidya.lunchbox.model.Category;
+import com.vidya.lunchbox.model.CategoryNew;
 import com.vidya.lunchbox.utils.ItemClickListener;
 
 import java.util.ArrayList;
 
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
-    private ArrayList<Category> listdata;
     Context mcontext;
+    private ArrayList<CategoryNew> listdata;
     private ItemClickListener clickListener;
 
     // RecyclerView recyclerView;
-    public CategoryAdapter(Context activity, ArrayList<Category> listdata) {
+    public CategoryAdapter(Context activity, ArrayList<CategoryNew> listdata) {
         this.listdata = listdata;
         mcontext = activity;
     }
@@ -39,9 +41,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final Category myListData = listdata.get(position);
-        holder.textView.setText(myListData.getDescription());
-        holder.imageView.setImageResource(myListData.getImgId());
+        final CategoryNew myListData = listdata.get(position);
+        holder.textView.setText(myListData.getCatName());
+        Glide.with(mcontext).load(myListData.getCatImage()).into(holder.imageView);
         holder.description.setVisibility(View.GONE);
         holder.price.setVisibility(View.GONE);
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -49,8 +51,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             public void onClick(View view) {
 
                 if (clickListener != null)
-                    clickListener.onClick(view, position, myListData.getDescription());
-
+                    clickListener.onClick(position);
             }
         });
     }

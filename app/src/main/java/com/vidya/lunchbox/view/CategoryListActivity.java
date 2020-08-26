@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.ValueEventListener;
 import com.vidya.lunchbox.R;
 import com.vidya.lunchbox.adapter.CategoryAdapter;
 import com.vidya.lunchbox.model.Category;
@@ -44,7 +46,7 @@ import java.util.UUID;
 
 public class CategoryListActivity extends AppCompatActivity implements ItemClickListener {
 
-    ArrayList<Category> mItems;
+    ArrayList<CategoryNew> mItems;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private CategoryAdapter mAdapter;
@@ -57,30 +59,11 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
 
         mItems = new ArrayList<>();
         storageReference = FirebaseStorage.getInstance().getReference();
+        /***  Adding Menu Items and Categories to Database ***/
 //        addCategories();
-//        updateMenuItems();
 
-        Category category = new Category();
-        category.setDescription(CategoryNames.MAINCOURSE_CATEGORY);
-        category.setImgId(R.drawable.hyderabadi_chicken_biryani);
-        mItems.add(category);
-
-        category = new Category();
-        category.setDescription(CategoryNames.DESERTS_CATEGORY);
-        category.setImgId(R.drawable.tomato_gazpacho_soup);
-        mItems.add(category);
-
-        category = new Category();
-        category.setDescription(CategoryNames.BEVARAGES_CATEGORY);
-        category.setImgId(R.drawable.spiced_coffee);
-        mItems.add(category);
-
-        category = new Category();
-        category.setDescription(CategoryNames.APETIZERS_CATEGORY);
-        category.setImgId(R.drawable.tourtiere_spring_rolls);
-        mItems.add(category);
-
-//        Collections.shuffle(mItems);
+        /*** Getting Menu Categories from Data ***/
+        getAllCategories();
 
         // Calling the RecyclerView
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -95,10 +78,31 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
         mAdapter.setClickListener(this); // Bind the listener
     }
 
+    private void getAllCategories() {
+        mItems.clear();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("categories");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    CategoryNew category = postSnapshot.getValue(CategoryNew.class);
+                    mItems.add(category);
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getMessage());
+            }
+        });
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.mainmenu, menu);
+        inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -126,32 +130,35 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
         startActivity(intent);
     }
 
+
+    /***** Adding Menu Items and Categories to Database *****/
     private void addCategories() {
         CategoryNew category1 = new CategoryNew();
         category1.setCatName(CategoryNames.MAINCOURSE_CATEGORY);
-        uploadImage(getImageUri(R.drawable.hyderabadi_chicken_biryani), false, null, category1);
+        uploadImage(getImageUri(R.drawable.hyderabadi_chicken_biryani), false, null, category1, "");
 
         CategoryNew category2 = new CategoryNew();
         category2.setCatName(CategoryNames.DESERTS_CATEGORY);
-        uploadImage(getImageUri(R.drawable.tomato_gazpacho_soup), false, null, category2);
+        uploadImage(getImageUri(R.drawable.tomato_gazpacho_soup), false, null, category2, "");
 
         CategoryNew category3 = new CategoryNew();
         category3.setCatName(CategoryNames.BEVARAGES_CATEGORY);
-        uploadImage(getImageUri(R.drawable.spiced_coffee), false, null, category3);
+        uploadImage(getImageUri(R.drawable.spiced_coffee), false, null, category3, "");
 
         CategoryNew category4 = new CategoryNew();
         category4.setCatName(CategoryNames.APETIZERS_CATEGORY);
-        uploadImage(getImageUri(R.drawable.tourtiere_spring_rolls), false, null, category4);
+        uploadImage(getImageUri(R.drawable.tourtiere_spring_rolls), false, null, category4, "");
     }
 
     private Uri getImageUri(int drawableImg) {
         return Uri.parse("android.resource://" + getPackageName() + "/" + drawableImg);
     }
 
-    public void createMenu(ItemMenu itemMenu) {
-        DatabaseReference presentersReference = FirebaseDatabase.getInstance().getReference("menuItems");
+    public void createMenu(ItemMenu itemMenu, String catId) {
+        DatabaseReference presentersReference = FirebaseDatabase.getInstance().getReference("itemsMenus");
         final String presenterId = UUID.randomUUID().toString();
         itemMenu.setItemId(presenterId);
+        itemMenu.setCatId(catId);
         presentersReference.child(presenterId).setValue(itemMenu, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -164,42 +171,55 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
         });
     }
 
-    private void updateMenuItems() {
-        for (int i = 0; i < getResources().getStringArray(R.array.maincourse_names).length; i++) {
-            ItemMenu menuItem = new ItemMenu();
-            menuItem.setItemName(getResources().getStringArray(R.array.maincourse_names)[i]);
-            menuItem.setItemDesc(getResources().getStringArray(R.array.maincourse_desc)[i]);
-            menuItem.setPrice(Double.parseDouble(String.valueOf(getResources().getIntArray(R.array.maincourse_cost)[i])));
-            uploadImage(getImageUri((getResources().obtainTypedArray(R.array.maincourse_imgs).getResourceId(i, -1))),
-                    true, menuItem, null);
-        }
-        for (int i = 0; i < getResources().getStringArray(R.array.appetizers_names).length; i++) {
-            ItemMenu menuItem = new ItemMenu();
-            menuItem.setItemName(getResources().getStringArray(R.array.appetizers_names)[i]);
-            menuItem.setItemDesc(getResources().getStringArray(R.array.appetizers_desc)[i]);
-            menuItem.setPrice(Double.parseDouble(String.valueOf(getResources().getIntArray(R.array.appetizers_cost)[i])));
-            uploadImage(getImageUri((getResources().obtainTypedArray(R.array.maincourse_imgs).getResourceId(i, -1))),
-                    true, menuItem, null);
-        }
-        for (int i = 0; i < getResources().getStringArray(R.array.desert_names).length; i++) {
-            ItemMenu menuItem = new ItemMenu();
-            menuItem.setItemName(getResources().getStringArray(R.array.desert_names)[i]);
-            menuItem.setItemDesc(getResources().getStringArray(R.array.desert_desc)[i]);
-            menuItem.setPrice(Double.parseDouble(String.valueOf(getResources().getIntArray(R.array.desert_cost)[i])));
-            uploadImage(getImageUri((getResources().obtainTypedArray(R.array.maincourse_imgs).getResourceId(i, -1))),
-                    true, menuItem, null);
-        }
-        for (int i = 0; i < getResources().getStringArray(R.array.beverages_names).length; i++) {
-            ItemMenu menuItem = new ItemMenu();
-            menuItem.setItemName(getResources().getStringArray(R.array.beverages_names)[i]);
-            menuItem.setItemDesc(getResources().getStringArray(R.array.beverages_desc)[i]);
-            menuItem.setPrice(Double.parseDouble(String.valueOf(getResources().getIntArray(R.array.beverages_cost)[i])));
-            uploadImage(getImageUri((getResources().obtainTypedArray(R.array.maincourse_imgs).getResourceId(i, -1))),
-                    true, menuItem, null);
+    private void updateMenuItems(String catName, String catId) {
+        switch (catName){
+            case CategoryNames.MAINCOURSE_CATEGORY:
+                for (int i = 0; i < getResources().getStringArray(R.array.maincourse_names).length; i++) {
+                    int[] myImageList = new int[]{R.drawable.ravioli, R.drawable.pepperoni_pizza, R.drawable.hyderabadi_chicken_biryani,
+                            R.drawable.hamburger, R.drawable.vegan_cream_cheese_veggie};
+                    ItemMenu menuItem = new ItemMenu();
+                    menuItem.setItemName(getResources().getStringArray(R.array.maincourse_names)[i]);
+                    menuItem.setItemDesc(getResources().getStringArray(R.array.maincourse_desc)[i]);
+                    menuItem.setPrice(Double.parseDouble(String.valueOf(getResources().getIntArray(R.array.maincourse_cost)[i])));
+                    uploadImage(getImageUri((myImageList[i])),true, menuItem, null, catId);
+                }
+                break;
+            case CategoryNames.APETIZERS_CATEGORY:
+                for (int i = 0; i < getResources().getStringArray(R.array.appetizers_names).length; i++) {
+                    int[] myImageList = new int[]{R.drawable.tourtiere_spring_rolls};
+                    ItemMenu menuItem = new ItemMenu();
+                    menuItem.setItemName(getResources().getStringArray(R.array.appetizers_names)[i]);
+                    menuItem.setItemDesc(getResources().getStringArray(R.array.appetizers_desc)[i]);
+                    menuItem.setPrice(Double.parseDouble(String.valueOf(getResources().getIntArray(R.array.appetizers_cost)[i])));
+                    uploadImage(getImageUri((myImageList[i])),true, menuItem, null, catId);
+                }
+                break;
+            case CategoryNames.BEVARAGES_CATEGORY:
+                for (int i = 0; i < getResources().getStringArray(R.array.beverages_names).length; i++) {
+                    int[] myImageList = new int[]{R.drawable.spiced_coffee, R.drawable.lemon_tea, R.drawable.vanilla_sweet_cream};
+                    ItemMenu menuItem = new ItemMenu();
+                    menuItem.setItemName(getResources().getStringArray(R.array.beverages_names)[i]);
+                    menuItem.setItemDesc(getResources().getStringArray(R.array.beverages_desc)[i]);
+                    menuItem.setPrice(Double.parseDouble(String.valueOf(getResources().getIntArray(R.array.beverages_cost)[i])));
+                    uploadImage(getImageUri((myImageList[i])),true, menuItem, null, catId);
+                }
+                break;
+            case CategoryNames.DESERTS_CATEGORY:
+                for (int i = 0; i < getResources().getStringArray(R.array.desert_names).length; i++) {
+                    int[] myImageList = new int[]{R.drawable.tomato_gazpacho_soup, R.drawable.chicken_bacon_soup, R.drawable.tiger_tail_ice_cream,
+                            R.drawable.saskatoon_berry_pie, R.drawable.nanaimo_bar};
+                    ItemMenu menuItem = new ItemMenu();
+                    menuItem.setItemName(getResources().getStringArray(R.array.desert_names)[i]);
+                    menuItem.setItemDesc(getResources().getStringArray(R.array.desert_desc)[i]);
+                    menuItem.setPrice(Double.parseDouble(String.valueOf(getResources().getIntArray(R.array.desert_cost)[i])));
+                    uploadImage(getImageUri((myImageList[i])),true, menuItem, null, catId);
+                }
+                break;
         }
     }
 
-    public void createCategory(CategoryNew category) {
+
+    public void createCategory(final CategoryNew category) {
         DatabaseReference presentersReference = FirebaseDatabase.getInstance().getReference("categories");
         final String presenterId = UUID.randomUUID().toString();
         category.setCatId(presenterId);
@@ -207,6 +227,7 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError == null) {
+                    updateMenuItems(category.getCatName(), presenterId);
                     Log.e("TAG", "Category added : " + presenterId);
                 } else {
                     Log.e("TAG", "Failed to add", databaseError.toException());
@@ -216,7 +237,7 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
     }
 
     public void uploadImage(final Uri filePath, final boolean menu, final ItemMenu menuItem,
-                            final CategoryNew category) {
+                            final CategoryNew category, final String catId) {
         if (filePath != null) {
             final ProgressDialog progress = new ProgressDialog(this);
             progress.setTitle("Uploading....");
@@ -233,7 +254,7 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
                             Log.d("uri", "" + uri);
                             if (menu) {
                                 menuItem.setItemImage(uri.toString());
-                                createMenu(menuItem);
+                                createMenu(menuItem, catId);
                             } else {
                                 category.setCatImage(uri.toString());
                                 createCategory(category);
