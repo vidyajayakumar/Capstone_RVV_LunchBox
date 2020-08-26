@@ -1,7 +1,21 @@
 package com.vidya.lunchbox.model;
 
-public class ItemMenu {
+import android.os.Parcel;
+import android.os.Parcelable;
 
+public class ItemMenu implements Parcelable {
+
+    public static final Creator<ItemMenu> CREATOR = new Creator<ItemMenu>() {
+        @Override
+        public ItemMenu createFromParcel(Parcel in) {
+            return new ItemMenu(in);
+        }
+
+        @Override
+        public ItemMenu[] newArray(int size) {
+            return new ItemMenu[size];
+        }
+    };
     private String itemId;
     private String catId;
     private String itemName;
@@ -11,6 +25,38 @@ public class ItemMenu {
 
     public ItemMenu() {
 
+    }
+
+    protected ItemMenu(Parcel in) {
+        itemId = in.readString();
+        catId = in.readString();
+        itemName = in.readString();
+        itemDesc = in.readString();
+        price = in.readDouble();
+        itemImage = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(itemId);
+        dest.writeString(catId);
+        dest.writeString(itemName);
+        dest.writeString(itemDesc);
+        dest.writeDouble(price);
+        dest.writeString(itemImage);
+    }
+
+    public String getCatId() {
+        return catId;
+    }
+
+    public void setCatId(String catId) {
+        this.catId = catId;
     }
 
     public String getItemId() {

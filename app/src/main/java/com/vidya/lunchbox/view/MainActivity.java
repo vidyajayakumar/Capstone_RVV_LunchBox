@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         categoryId = extras.getString("CategoryId");
         adapterItems = new ArrayList<>();
         getItemMenus();
-        
+
         getSupportActionBar().hide();
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar);
