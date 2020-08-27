@@ -2,6 +2,7 @@ package com.vidya.lunchbox.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.os.Bundle;
@@ -76,6 +77,8 @@ public class OrderListActivity extends AppCompatActivity implements ItemClickLis
 
     @Override
     public void onClick(int position) {
-
+        Intent intent = new Intent(OrderListActivity.this, OrderDetails.class);
+        intent.putExtra("order", orders.get(position));
+        startActivity(intent);
     }
 }

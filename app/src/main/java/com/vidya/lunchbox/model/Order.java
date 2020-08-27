@@ -57,6 +57,10 @@ public class Order implements Parcelable {
     private long dateTime;
 
     protected Order(Parcel in) {
+        orderId = in.readString();
+        userId = in.readString();
+        productIds = in.readString();
+        status = in.readString();
     }
 
     public static final Creator<Order> CREATOR = new Creator<Order>() {
@@ -78,5 +82,9 @@ public class Order implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(orderId);
+        dest.writeString(userId);
+        dest.writeString(productIds);
+        dest.writeString(status);
     }
 }

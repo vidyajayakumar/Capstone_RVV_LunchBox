@@ -19,4 +19,5 @@
     <string name="product1price">$675</string>
 
     <string name="empty_cart">Your Cart is Empty</string>
+    <string name="action_orders">Orders</string>
 </resources>

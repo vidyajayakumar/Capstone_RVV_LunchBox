@@ -107,6 +107,10 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
                 Intent i = new Intent(CategoryListActivity.this, ProfileActivity.class);
                 startActivity(i);
                 break;
+            case R.id.action_orders:
+                Intent intent = new Intent(CategoryListActivity.this, OrderListActivity.class);
+                startActivity(intent);
+                break;
             default:
                 break;
         }

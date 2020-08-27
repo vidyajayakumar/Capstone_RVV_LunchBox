@@ -35,7 +35,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.cart_list, viewGroup, false);
+                .inflate(R.layout.product_list, viewGroup, false);
         return new ViewHolder(v);
     }
 
@@ -57,8 +57,8 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
 
     static class ViewHolder extends RecyclerView.ViewHolder{
 
-        public final ImageView imgProduct;
-        public final TextView productName, productDesc, productPrice;
+        public ImageView imgProduct;
+        public TextView productName, productDesc, productPrice;
 
         public ViewHolder(View itemView) {
             super(itemView);

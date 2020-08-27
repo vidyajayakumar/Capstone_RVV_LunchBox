@@ -30,19 +30,24 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Utils {
 
     public static String getDateTime(long dateTime) {
         String strDateTime = "";
-        try {
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm");
-            Date d = sdf.parse(String.valueOf(dateTime));
-            strDateTime = sdf.format(d);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm");
+        Date d = new Date(dateTime);
+        strDateTime = sdf.format(d);
         return strDateTime;
     }
+
+    public static ArrayList<String> getArrFromString(String val){
+        ArrayList<String> arrStr;
+        String[] fp = val.split(",");
+        arrStr = new ArrayList<String>(Arrays.asList(fp));
+        return arrStr;
+    }
+
 }

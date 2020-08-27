@@ -13,9 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.OrderListActivity"></activity>
-        <activity android:name=".view.OrderDetailsActivity" />
-        <activity android:name=".view.FeedbackActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -34,6 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
         <activity android:name=".view.LoginActivity" />
         <activity android:name=".view.RegisterActivity" />
         <activity android:name=".view.AddressActivity" />
@@ -43,6 +41,10 @@
         <activity android:name=".view.DetailActivity" />
         <activity android:name=".view.ViewCartActivity" />
         <activity android:name=".view.PaymentActivity" />
+        <activity android:name=".view.OrderListActivity" />
+        <activity android:name=".view.OrderDetails" />
+        <activity android:name=".view.FeedbackActivity" />
+
     </application>
 
 </manifest>

@@ -42,12 +42,23 @@
         app:layout_constraintTop_toBottomOf="@+id/orderIdVal"/>
 
     <TextView
+        android:id="@+id/txtCreatedAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Created At : "
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtOrderStatus"/>
+
+    <TextView
         android:id="@+id/dateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/txtCreatedAt"
+        app:layout_constraintTop_toBottomOf="@+id/txtOrderStatus"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvOrderedProducts"
@@ -55,7 +66,7 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderStatus"
+        app:layout_constraintTop_toBottomOf="@+id/txtCreatedAt"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="10dp"/>
 

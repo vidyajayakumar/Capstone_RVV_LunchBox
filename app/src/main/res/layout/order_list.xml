@@ -42,18 +42,29 @@
         app:layout_constraintTop_toBottomOf="@+id/orderIdVal"/>
 
     <TextView
+        android:id="@+id/txtCreatedAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Created At : "
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtOrderStatus"/>
+
+    <TextView
         android:id="@+id/dateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/txtCreatedAt"
+        app:layout_constraintTop_toBottomOf="@+id/txtOrderStatus"/>
 
     <View
         android:layout_width="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderStatus"
+        app:layout_constraintTop_toBottomOf="@+id/txtCreatedAt"
         android:layout_height="1dp"
         android:layout_marginTop="13dp"
         android:background="#cccccc" />
