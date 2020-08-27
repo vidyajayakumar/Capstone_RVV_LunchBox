@@ -25,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
         //can cover the entire screen.
 
         setContentView(R.layout.activity_splash);
-        //this will bind your MainActivity.class file with activity_main.
+        //this will bind your ItemsActivity.class file with activity_items.
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -35,6 +35,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 if (session.isLoggedIn()) {
                     Intent i = new Intent(SplashActivity.this, CategoryListActivity.class);
+//                    Intent i = new Intent(SplashActivity.this, FeedbackActivity.class);
                     startActivity(i);
                     finish();
                 } else {

@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.vidya.lunchbox.R;
 import com.vidya.lunchbox.adapter.CategoryAdapter;
-import com.vidya.lunchbox.model.Category;
 import com.vidya.lunchbox.model.CategoryNew;
 import com.vidya.lunchbox.model.ItemMenu;
 import com.vidya.lunchbox.utils.CategoryNames;
@@ -37,7 +35,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.UUID;
 
 public class CategoryListActivity extends AppCompatActivity implements ItemClickListener {
@@ -119,7 +116,7 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
 
     @Override
     public void onClick(int position) {
-        Intent intent = new Intent(CategoryListActivity.this, MainActivity.class);
+        Intent intent = new Intent(CategoryListActivity.this, ItemsActivity.class);
         intent.putExtra("CategoryId", mItems.get(position).getCatId());
         startActivity(intent);
     }

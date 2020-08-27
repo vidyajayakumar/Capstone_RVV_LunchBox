@@ -44,8 +44,10 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.vidya.lunchbox.model.Cart;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -83,6 +85,7 @@ public class AddressActivity extends AppCompatActivity implements OnMapReadyCall
             public void onClick(View view) {
                 Toast.makeText(AddressActivity.this, "Address Added Successfully", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(AddressActivity.this, PaymentActivity.class);
+                intent.putParcelableArrayListExtra("items", getBundleExtra());
                 startActivity(intent);
             }
         });
@@ -93,6 +96,15 @@ public class AddressActivity extends AppCompatActivity implements OnMapReadyCall
             showAlert();
         return isLocationEnabled();
     }
+
+    private ArrayList<Cart> getBundleExtra() {
+        ArrayList<Cart> cartArrayList = new ArrayList<>();
+        if (getIntent().getExtras() != null) {
+            cartArrayList = getIntent().getExtras().getParcelableArrayList("items");
+        }
+        return cartArrayList;
+    }
+
 
     private void showAlert() {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
