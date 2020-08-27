@@ -1,5 +1,6 @@
 package com.vidya.lunchbox.utils;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
@@ -25,8 +26,23 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.UUID;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 
 public class Utils {
 
-
+    public static String getDateTime(long dateTime) {
+        String strDateTime = "";
+        try {
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm");
+            Date d = sdf.parse(String.valueOf(dateTime));
+            strDateTime = sdf.format(d);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return strDateTime;
+    }
 }

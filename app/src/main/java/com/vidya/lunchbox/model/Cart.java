@@ -1,23 +1,65 @@
 package com.vidya.lunchbox.model;
 
-public class Cart implements java.io.Serializable {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Cart implements Parcelable {
+
+    public static final Creator<Cart> CREATOR = new Creator<Cart>() {
+        @Override
+        public Cart createFromParcel(Parcel in) {
+            return new Cart(in);
+        }
+
+        @Override
+        public Cart[] newArray(int size) {
+            return new Cart[size];
+        }
+    };
 
     private String mProductid;
     private String mDesc;
     private double mPrice;
     private String mName;
-    private String mThumbnail;
-
-//    public String getmStrength() {
+    //    public String getmStrength() {
 //        return mStrength;
 //    }
 //
 //    public void setmStrength(String mStrength) {
 //        this.mStrength = mStrength;
 //    }
-
+    private String mThumbnail;
     private String mStrength;
     private int mQuantity;
+
+    public Cart() {
+    }
+
+    protected Cart(Parcel in) {
+        mProductid = in.readString();
+        mDesc = in.readString();
+        mPrice = in.readDouble();
+        mName = in.readString();
+        mThumbnail = in.readString();
+        mStrength = in.readString();
+        mQuantity = in.readInt();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mProductid);
+        dest.writeString(mDesc);
+        dest.writeDouble(mPrice);
+        dest.writeString(mName);
+        dest.writeString(mThumbnail);
+        dest.writeString(mStrength);
+        dest.writeInt(mQuantity);
+    }
 
     public String getProductid() {
         return mProductid;
