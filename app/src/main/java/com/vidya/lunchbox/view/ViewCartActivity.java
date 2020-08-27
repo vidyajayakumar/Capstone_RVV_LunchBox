@@ -171,7 +171,7 @@ public class ViewCartActivity extends AppCompatActivity {
                 if (mItems.size() > 0) {
 
 //                    showAlertDialog();
-                    MainActivity.cs.clearCart(ViewCartActivity.this);
+                    ItemsActivity.cs.clearCart(ViewCartActivity.this);
                     Intent i = new Intent(ViewCartActivity.this, PaymentActivity.class);
                     // set the new task and clear flags
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -222,8 +222,9 @@ public class ViewCartActivity extends AppCompatActivity {
         // Setting OK Button
         alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                //MainActivity.cs.clearCart(ViewCartActivity.this);
+                //ItemsActivity.cs.clearCart(ViewCartActivity.this);
                 Intent i = new Intent(ViewCartActivity.this, AddressActivity.class);
+                i.putParcelableArrayListExtra("items", mItems);
                 startActivity(i);
             }
         });
