@@ -53,15 +53,14 @@ public class AddressActivity extends AppCompatActivity implements OnMapReadyCall
         LocationListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
-    private GoogleMap mMap;
     Location mLastLocation;
     Marker mCurrLocationMarker;
     GoogleApiClient mGoogleApiClient;
     LocationRequest mLocationRequest;
-    private LocationManager locationManager;
-
-    private MaterialButton btnDone;
     SupportMapFragment mapFragment;
+    private GoogleMap mMap;
+    private LocationManager locationManager;
+    private MaterialButton btnDone;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -184,7 +183,7 @@ public class AddressActivity extends AppCompatActivity implements OnMapReadyCall
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         mCurrLocationMarker = mMap.addMarker(markerOptions);
 
-        getCompleteAddressString(location.getLatitude(),location.getLongitude());
+        getCompleteAddressString(location.getLatitude(), location.getLongitude());
 
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -219,7 +218,7 @@ public class AddressActivity extends AppCompatActivity implements OnMapReadyCall
 
                 Address address = addressList.get(0);
                 LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                getCompleteAddressString(address.getLatitude(),address.getLongitude());
+                getCompleteAddressString(address.getLatitude(), address.getLongitude());
                 mMap.clear();
                 mMap.addMarker(new MarkerOptions().position(latLng).title(location));
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -309,15 +308,16 @@ public class AddressActivity extends AppCompatActivity implements OnMapReadyCall
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
                 }
                 strAdd = strReturnedAddress.toString();
-                Log.w("My Current loc address", strReturnedAddress.toString());
+                Log.w("My Current loction address", strReturnedAddress.toString());
             } else {
-                Log.w("My Current loc address", "No Address returned!");
+                Log.w("My Current loction address", "No Address returned!");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.w("My Current loc address", "Canont get Address!");
+            Log.w("My Current loction address", "Canont get Address!");
         }
         return strAdd;
     }
 
 }
+

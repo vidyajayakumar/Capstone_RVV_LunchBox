@@ -19,12 +19,12 @@ public class CategoryNew implements Parcelable {
             return new CategoryNew[size];
         }
     };
-
     private String catId;
     private String catName;
     private String catImage;
 
     public CategoryNew() {
+
     }
 
     protected CategoryNew(Parcel in) {
@@ -68,5 +68,4 @@ public class CategoryNew implements Parcelable {
         dest.writeString(catName);
         dest.writeString(catImage);
     }
-
 }

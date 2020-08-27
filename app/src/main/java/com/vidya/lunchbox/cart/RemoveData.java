@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class RemoveData {
 
-    public void RemoveDataByKey(String mid, String mkey, Context context){
+    public void RemoveDataByKey(String mid, String mkey, Context context) {
 
         Boolean mkeyFound = false;
 
@@ -26,7 +26,7 @@ public class RemoveData {
         // Create imageDir in applications default directory
         File mypath = new File(Carteasy.getContextWrapper(context), Carteasy.carteasyFileName);
 
-        if(mypath.exists()){
+        if (mypath.exists()) {
 
             JSONParser parser = new JSONParser();
             try {
@@ -36,7 +36,7 @@ public class RemoveData {
                 SaveData sd = new SaveData();
 
                 /* Checks if both the ID and Key exist, if not print an Error message */
-                if(sd.checkIfIdExist(mid, jsonObj)) {
+                if (sd.checkIfIdExist(mid, jsonObj)) {
                     if (sd.checkIfKeyExist(mid, mkey, jsonObj)) {
 
                         for (Object key : jsonObj.keySet()) {
@@ -46,7 +46,7 @@ public class RemoveData {
                             Object keyvalue = jsonObj.get(keyStr);
 
                             //for nested objects iteration if required
-                            if(keyvalue instanceof JSONObject) {
+                            if (keyvalue instanceof JSONObject) {
 
                                 JSONObject products = new JSONObject();
 
@@ -58,8 +58,8 @@ public class RemoveData {
                                     String keyStr2 = (String) key2;
                                     Object keyvalue2 = newJsonObj.get(keyStr2);
 
-                                    if (keyStr.equals(mid)){ //product id
-                                        if (keyStr2.equals(mkey)){ // product name
+                                    if (keyStr.equals(mid)) { //product id
+                                        if (keyStr2.equals(mkey)) { // product name
                                             mkeyFound = true;
 
                                             /* Notify the user that it has been updated */
@@ -67,7 +67,7 @@ public class RemoveData {
                                         }
                                     }
 
-                                    if(!mkeyFound.equals(true)) {
+                                    if (!mkeyFound.equals(true)) {
                                         products.put(keyStr2, keyvalue2);
                                     } else {
                                         mkeyFound = false;
@@ -104,7 +104,7 @@ public class RemoveData {
     }
 
     /* Remove Data by Id */
-    public Boolean RemoveDataById(String mid, Context context){
+    public Boolean RemoveDataById(String mid, Context context) {
 
         Boolean removed = false;
         /* Create a new JSON object items to store values */
@@ -113,7 +113,7 @@ public class RemoveData {
         // Create imageDir in applications default directory
         File mypath = new File(Carteasy.getContextWrapper(context), Carteasy.carteasyFileName);
 
-        if(mypath.exists()){
+        if (mypath.exists()) {
 
             JSONParser parser = new JSONParser();
             try {
@@ -123,7 +123,7 @@ public class RemoveData {
                 SaveData sd = new SaveData();
 
                 /* Checks if both the ID and Key exist, if not print an Error message */
-                if(sd.checkIfIdExist(mid, jsonObj)) {
+                if (sd.checkIfIdExist(mid, jsonObj)) {
 
                     jsonObj.remove(mid);
                     //Push to file
@@ -149,15 +149,15 @@ public class RemoveData {
             //Path does not exist
         }
 
-         /* Notify the user that it has been updated */
-        if(removed.equals(true)) {
+        /* Notify the user that it has been updated */
+        if (removed.equals(true)) {
             Log.d("Carteasy: ", mid + " => " + " => removed");
         }
         return removed;
     }
 
     /* Clear All data from Cart */
-    public void clearAllFromCart(Context context){
+    public void clearAllFromCart(Context context) {
 
         ContextWrapper cw = new ContextWrapper(context);
         File directory = cw.getDir(Carteasy.carteasyDirName, Context.MODE_PRIVATE);
@@ -165,7 +165,7 @@ public class RemoveData {
         // Create imageDir in applications default directory
         File mypath = new File(directory, Carteasy.carteasyFileName);
 
-        if(mypath.exists()){
+        if (mypath.exists()) {
             try {
                 FileWriter filez = new FileWriter(mypath);
                 filez.write(new JSONObject().toJSONString());
@@ -184,7 +184,7 @@ public class RemoveData {
     }
 
     /* Remove Data all data in Json file */
-    public void ClearAllData(Context context){
+    public void ClearAllData(Context context) {
         ContextWrapper cw = new ContextWrapper(context);
         File directory = cw.getDir(Carteasy.carteasyDirName, Context.MODE_PRIVATE);
         new File(directory, Carteasy.carteasyFileName).delete();

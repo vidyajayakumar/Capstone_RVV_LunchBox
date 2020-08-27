@@ -18,7 +18,7 @@ public class SaveData {
 
     /* Save function checkes if file exist, recieves data from User
        Appends it and saves into users default app data storage space. */
-    public void save(Context context, JSONObject items, String mid, JSONObject pro){
+    public void save(Context context, JSONObject items, String mid, JSONObject pro) {
 
         /* This retrieves the file from default application data storage if it exist.
            If it doesn't It creates a new file. */
@@ -26,35 +26,35 @@ public class SaveData {
         // Create imageDir in applications default directory
         File mypath = new File(Carteasy.getContextWrapper(context), Carteasy.carteasyFileName);
 
-        if(mypath.exists()){
+        if (mypath.exists()) {
             JSONParser parser = new JSONParser();
             try {
                 // Get the JSON Object and loop through it.
                 Object obj = parser.parse(new FileReader(mypath));
                 JSONObject jsonObj = (JSONObject) obj;
 
-                    for (Object key : jsonObj.keySet()) {
-                        //based on you key types
-                        String keyStr = (String) key;
-                        Object keyValue = jsonObj.get(keyStr);
+                for (Object key : jsonObj.keySet()) {
+                    //based on you key types
+                    String keyStr = (String) key;
+                    Object keyValue = jsonObj.get(keyStr);
 
-                        if (keyValue instanceof JSONObject) {
-                            if(keyStr.toString().equals(mid.toString())){
-                                items.remove(keyStr);
-                                items.put(keyStr, pro);
+                    if (keyValue instanceof JSONObject) {
+                        if (keyStr.toString().equals(mid.toString())) {
+                            items.remove(keyStr);
+                            items.put(keyStr, pro);
 
-                            } else {
-                                items.put(keyStr, keyValue);
-                            }
+                        } else {
+                            items.put(keyStr, keyValue);
                         }
                     }
+                }
 
-                    //This writes to file in the user's default app data directory
-                    FileWriter filez = new FileWriter(mypath);
-                    filez.write(items.toJSONString());
-                    filez.flush();
-                    filez.close();
-                    Log.d("Carteasy: ", "data saved");
+                //This writes to file in the user's default app data directory
+                FileWriter filez = new FileWriter(mypath);
+                filez.write(items.toJSONString());
+                filez.flush();
+                filez.close();
+                Log.d("Carteasy: ", "data saved");
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -83,7 +83,7 @@ public class SaveData {
     }
 
     // UpdateValue function iterates through the existing data and updates a value based on its key and id
-    public void updateValue(String mid, String mkey, Object newvalue, Context context){
+    public void updateValue(String mid, String mkey, Object newvalue, Context context) {
 
         /* Create a new JSON object items to store values */
         JSONObject items = new JSONObject();
@@ -94,7 +94,7 @@ public class SaveData {
         // Create imageDir in applications default directory
         File mypath = new File(directory, Carteasy.carteasyFileName);
 
-        if(mypath.exists()){
+        if (mypath.exists()) {
 
             JSONParser parser = new JSONParser();
             try {
@@ -103,7 +103,7 @@ public class SaveData {
                 JSONObject jsonObj = (JSONObject) obj;
 
                 /* Checks if both the ID and Key exist, if not print an Error message */
-                if(checkIfIdExist(mid, jsonObj)) {
+                if (checkIfIdExist(mid, jsonObj)) {
                     if (checkIfKeyExist(mid, mkey, jsonObj)) {
 
                         for (Object key : jsonObj.keySet()) {
@@ -113,7 +113,7 @@ public class SaveData {
                             Object keyValue = jsonObj.get(keyStr);
 
                             //for nested objects iteration if required
-                            if(keyValue instanceof JSONObject) {
+                            if (keyValue instanceof JSONObject) {
 
                                 JSONObject products = new JSONObject();
 
@@ -181,7 +181,7 @@ public class SaveData {
                 found = true;
             }
             if (keyvalue instanceof JSONObject) {
-                if(found.equals(true)) {
+                if (found.equals(true)) {
                     JSONObject newJsonObj = (JSONObject) keyvalue;
                     for (Object key2 : newJsonObj.keySet()) {
                         //based on you key types
@@ -213,7 +213,7 @@ public class SaveData {
         return exist;
     }
 
-    public void persist(Context context, boolean status){
+    public void persist(Context context, boolean status) {
         File mypath = new File(Carteasy.getContextWrapper(context), Carteasy.settingsFileName);
         try {
             JSONObject jsonObj = new JSONObject();

@@ -80,7 +80,7 @@ public class GetData {
        This works best if the user specify for example:  user specifies id as 1243, and productname as key,
        It returns the respective Value of the key.
     */
-    public Map<String, String> ViewById(String mid, Context context){
+    public Map<String, String> ViewById(String mid, Context context) {
 
         Map<String, String> newItems = new HashMap<String, String>();
 
@@ -90,7 +90,7 @@ public class GetData {
         // Create imageDir in applications default directory
         File mypath = new File(Carteasy.getContextWrapper(context), Carteasy.carteasyFileName);
 
-        if(mypath.exists()){
+        if (mypath.exists()) {
 
             JSONParser parser = new JSONParser();
             try {
@@ -100,7 +100,7 @@ public class GetData {
                 SaveData sd = new SaveData();
 
                 /* Checks if both the ID exist, if not print an Error message */
-                if(sd.checkIfIdExist(mid, jsonObj)) {
+                if (sd.checkIfIdExist(mid, jsonObj)) {
 
                     for (Object key : jsonObj.keySet()) {
 
@@ -109,9 +109,9 @@ public class GetData {
                         Object keyValue = jsonObj.get(keyStr);
 
                         //for nested objects iteration if required
-                        if(keyValue instanceof JSONObject) {
+                        if (keyValue instanceof JSONObject) {
 
-                            if(keyStr.equals(mid)) {
+                            if (keyStr.equals(mid)) {
 
                                 /* Loop the JSON object again for nested object */
                                 JSONObject newJsonObj = (JSONObject) keyValue;
@@ -131,7 +131,7 @@ public class GetData {
                     }
 
                 } else {
-                    Log.d("Carteasy: ","Key does not exist");
+                    Log.d("Carteasy: ", "Key does not exist");
                 }
 
             } catch (FileNotFoundException e) {
@@ -151,7 +151,7 @@ public class GetData {
 
     /* ViewAll returns all values the values saved for example:
       id , productname, product_desc */
-    public Map<Integer, Map> ViewAll(Context context){
+    public Map<Integer, Map> ViewAll(Context context) {
 
         Map<Integer, Map> mainItems = new HashMap<Integer, Map>();
         int count = 0;
@@ -162,7 +162,7 @@ public class GetData {
         // Create imageDir in applications default directory
         File mypath = new File(Carteasy.getContextWrapper(context), Carteasy.carteasyFileName);
 
-        if(mypath.exists()){
+        if (mypath.exists()) {
 
             JSONParser parser = new JSONParser();
             try {
@@ -179,11 +179,11 @@ public class GetData {
                     Object keyvalue = jsonObj.get(keyStr);
 
                     //for nested objects iteration if required
-                    if(keyvalue instanceof JSONObject) {
+                    if (keyvalue instanceof JSONObject) {
 
                         Map<String, String> newItems = new HashMap<String, String>();
 
-                                /* Loop the JSON object again for nested object */
+                        /* Loop the JSON object again for nested object */
                         JSONObject newJsonObj = (JSONObject) keyvalue;
                         for (Object key2 : newJsonObj.keySet()) {
 
@@ -216,11 +216,11 @@ public class GetData {
         return mainItems;
     }
 
-    public Boolean getPersistStatus(Context context){
+    public Boolean getPersistStatus(Context context) {
         Boolean status = false;
         File mypath = new File(Carteasy.getContextWrapper(context), Carteasy.settingsFileName);
         JSONParser parser = new JSONParser();
-        if(mypath.exists()) {
+        if (mypath.exists()) {
             try {
                 Object obj = parser.parse(new FileReader(mypath));
                 JSONObject jsonObj = (JSONObject) obj;

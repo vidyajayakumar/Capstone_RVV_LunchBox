@@ -1,47 +1,43 @@
 package com.vidya.lunchbox.view;
 
-
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.ValueEventListener;
 import com.vidya.lunchbox.R;
 import com.vidya.lunchbox.adapter.CategoryAdapter;
 import com.vidya.lunchbox.model.Category;
+import com.vidya.lunchbox.model.CategoryNew;
 import com.vidya.lunchbox.model.ItemMenu;
 import com.vidya.lunchbox.utils.CategoryNames;
-import com.vidya.lunchbox.model.CategoryNew;
 import com.vidya.lunchbox.utils.ItemClickListener;
-
-import java.util.ArrayList;
-
-import android.app.ProgressDialog;
-import android.net.Uri;
-import android.util.Log;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.UUID;
 
 public class CategoryListActivity extends AppCompatActivity implements ItemClickListener {
@@ -98,11 +94,10 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
         });
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
+        inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -123,10 +118,9 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
     }
 
     @Override
-    public void onClick(View view, int position, String category) {
-
+    public void onClick(int position) {
         Intent intent = new Intent(CategoryListActivity.this, MainActivity.class);
-        intent.putExtra("CategoryName", category);
+        intent.putExtra("CategoryId", mItems.get(position).getCatId());
         startActivity(intent);
     }
 
@@ -155,7 +149,7 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
     }
 
     public void createMenu(ItemMenu itemMenu, String catId) {
-        DatabaseReference presentersReference = FirebaseDatabase.getInstance().getReference("itemsMenus");
+        DatabaseReference presentersReference = FirebaseDatabase.getInstance().getReference("itemMenus");
         final String presenterId = UUID.randomUUID().toString();
         itemMenu.setItemId(presenterId);
         itemMenu.setCatId(catId);
@@ -172,7 +166,7 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
     }
 
     private void updateMenuItems(String catName, String catId) {
-        switch (catName){
+        switch (catName) {
             case CategoryNames.MAINCOURSE_CATEGORY:
                 for (int i = 0; i < getResources().getStringArray(R.array.maincourse_names).length; i++) {
                     int[] myImageList = new int[]{R.drawable.ravioli, R.drawable.pepperoni_pizza, R.drawable.hyderabadi_chicken_biryani,
@@ -181,7 +175,7 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
                     menuItem.setItemName(getResources().getStringArray(R.array.maincourse_names)[i]);
                     menuItem.setItemDesc(getResources().getStringArray(R.array.maincourse_desc)[i]);
                     menuItem.setPrice(Double.parseDouble(String.valueOf(getResources().getIntArray(R.array.maincourse_cost)[i])));
-                    uploadImage(getImageUri((myImageList[i])),true, menuItem, null, catId);
+                    uploadImage(getImageUri((myImageList[i])), true, menuItem, null, catId);
                 }
                 break;
             case CategoryNames.APETIZERS_CATEGORY:
@@ -191,7 +185,7 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
                     menuItem.setItemName(getResources().getStringArray(R.array.appetizers_names)[i]);
                     menuItem.setItemDesc(getResources().getStringArray(R.array.appetizers_desc)[i]);
                     menuItem.setPrice(Double.parseDouble(String.valueOf(getResources().getIntArray(R.array.appetizers_cost)[i])));
-                    uploadImage(getImageUri((myImageList[i])),true, menuItem, null, catId);
+                    uploadImage(getImageUri((myImageList[i])), true, menuItem, null, catId);
                 }
                 break;
             case CategoryNames.BEVARAGES_CATEGORY:
@@ -201,7 +195,7 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
                     menuItem.setItemName(getResources().getStringArray(R.array.beverages_names)[i]);
                     menuItem.setItemDesc(getResources().getStringArray(R.array.beverages_desc)[i]);
                     menuItem.setPrice(Double.parseDouble(String.valueOf(getResources().getIntArray(R.array.beverages_cost)[i])));
-                    uploadImage(getImageUri((myImageList[i])),true, menuItem, null, catId);
+                    uploadImage(getImageUri((myImageList[i])), true, menuItem, null, catId);
                 }
                 break;
             case CategoryNames.DESERTS_CATEGORY:
@@ -212,12 +206,11 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
                     menuItem.setItemName(getResources().getStringArray(R.array.desert_names)[i]);
                     menuItem.setItemDesc(getResources().getStringArray(R.array.desert_desc)[i]);
                     menuItem.setPrice(Double.parseDouble(String.valueOf(getResources().getIntArray(R.array.desert_cost)[i])));
-                    uploadImage(getImageUri((myImageList[i])),true, menuItem, null, catId);
+                    uploadImage(getImageUri((myImageList[i])), true, menuItem, null, catId);
                 }
                 break;
         }
     }
-
 
     public void createCategory(final CategoryNew category) {
         DatabaseReference presentersReference = FirebaseDatabase.getInstance().getReference("categories");

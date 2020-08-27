@@ -1,6 +1,5 @@
 package com.vidya.lunchbox.model;
 
-
 public class Cart implements java.io.Serializable {
 
     private String mProductid;
@@ -8,8 +7,6 @@ public class Cart implements java.io.Serializable {
     private double mPrice;
     private String mName;
     private String mThumbnail;
-    private String mStrength;
-    private int mQuantity;
 
 //    public String getmStrength() {
 //        return mStrength;
@@ -18,6 +15,9 @@ public class Cart implements java.io.Serializable {
 //    public void setmStrength(String mStrength) {
 //        this.mStrength = mStrength;
 //    }
+
+    private String mStrength;
+    private int mQuantity;
 
     public String getProductid() {
         return mProductid;
@@ -67,4 +67,4 @@ public class Cart implements java.io.Serializable {
         this.mQuantity = quantity;
     }
 
-} 
+}

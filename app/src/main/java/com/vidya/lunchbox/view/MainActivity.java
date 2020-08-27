@@ -1,10 +1,10 @@
 package com.vidya.lunchbox.view;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,18 +18,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.vidya.lunchbox.R;
+import com.vidya.lunchbox.adapter.GridAdapter;
+import com.vidya.lunchbox.cart.Carteasy;
+import com.vidya.lunchbox.model.Cart;
+import com.vidya.lunchbox.model.Category;
+import com.vidya.lunchbox.model.CategoryNew;
+import com.vidya.lunchbox.model.ItemMenu;
+import com.vidya.lunchbox.model.Items;
+import com.vidya.lunchbox.utils.CategoryNames;
+import com.vidya.lunchbox.utils.Utils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.vidya.lunchbox.R;
-import com.vidya.lunchbox.adapter.GridAdapter;
-import com.vidya.lunchbox.cart.Carteasy;
-import com.vidya.lunchbox.model.Cart;
-import com.vidya.lunchbox.model.ItemMenu;
-import com.vidya.lunchbox.model.Items;
-import com.vidya.lunchbox.utils.CategoryNames;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -41,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 //    String[] mDescriptionArray;
 //    int[] mCostArray;
 //    TypedArray mimagesArray;
-    ArrayList<Items> adapterItems;
+    ArrayList<ItemMenu> adapterItems;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;

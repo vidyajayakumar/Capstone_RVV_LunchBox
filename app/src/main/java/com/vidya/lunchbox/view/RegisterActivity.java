@@ -118,7 +118,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void saveUserData(String userId, String name, String email, String password) {
-        User userInformation = new User(userId,name, email, password);
+        User userInformation = new User(userId, name, email, password);
         mRef.child("users").child(userId).setValue(userInformation);
         session.setUserData(userInformation);
         session.setLogin(true);

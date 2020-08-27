@@ -36,21 +36,6 @@ public class ItemMenu implements Parcelable {
         itemImage = in.readString();
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(itemId);
-        dest.writeString(catId);
-        dest.writeString(itemName);
-        dest.writeString(itemDesc);
-        dest.writeDouble(price);
-        dest.writeString(itemImage);
-    }
-
     public String getCatId() {
         return catId;
     }
@@ -99,4 +84,18 @@ public class ItemMenu implements Parcelable {
         this.itemImage = itemImage;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(itemId);
+        dest.writeString(catId);
+        dest.writeString(itemName);
+        dest.writeString(itemDesc);
+        dest.writeDouble(price);
+        dest.writeString(itemImage);
+    }
 }

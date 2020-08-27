@@ -1,16 +1,13 @@
 package com.vidya.lunchbox.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
-import com.vidya.lunchbox.R;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.vidya.lunchbox.R;
 import com.vidya.lunchbox.helper.SessionManager;
 
 public class SplashActivity extends AppCompatActivity {

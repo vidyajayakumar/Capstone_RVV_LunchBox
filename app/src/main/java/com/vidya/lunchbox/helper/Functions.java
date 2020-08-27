@@ -22,8 +22,7 @@ public class Functions {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
-        if (inputMethodManager.isAcceptingText())
-            inputMethodManager.hideSoftInputFromWindow(
+        inputMethodManager.hideSoftInputFromWindow(
                 activity.getCurrentFocus().getWindowToken(), 0);
     }
 }

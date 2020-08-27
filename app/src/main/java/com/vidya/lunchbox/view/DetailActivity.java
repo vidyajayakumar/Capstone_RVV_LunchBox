@@ -29,16 +29,13 @@ import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button addtocart;
-    private Toolbar toolbar;
-
-    private ItemMenu mItem;
-
     public ImageView imgThumbnail;
     public TextView name;
     public TextView description;
     public TextView price;
-
+    private Button addtocart;
+    private Toolbar toolbar;
+    private ItemMenu mItem;
     private ArrayList<String> SizeArray;
     private ArrayList<Integer> QuantityArray;
     private ArrayList<String> ColorArray;
@@ -62,7 +59,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            mItem =  getIntent().getParcelableExtra("mItem");
+            mItem = getIntent().getParcelableExtra("mItem");
         }
 
         imgThumbnail = (ImageView) findViewById(R.id.img_thumbnail);

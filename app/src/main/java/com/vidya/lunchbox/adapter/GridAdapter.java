@@ -25,6 +25,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
     public GridAdapter(Context context, ArrayList<ItemMenu> adapterItems) {
         super();
+        this.context = context;
         mItems = adapterItems;
     }
 
@@ -43,8 +44,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         viewHolder.description.setText(nature.getItemDesc());
         viewHolder.price.setText("$".concat(String.valueOf(nature.getPrice())));
         //viewHolder.imgThumbnail.setImageResource(nature.getThumbnail());
-        Glide.with(context)
-                .load(nature.getItemImage())
+        Glide.with(context).load(nature.getItemImage())
                 .into(viewHolder.imgThumbnail);
 
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
@@ -52,8 +52,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, DetailActivity.class);
-
-                intent.putExtra("mItems", mItems.get(i));
+                intent.putExtra("mItem", mItems.get(i));
                 context.startActivity(intent);
             }
         });
@@ -67,11 +66,11 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        public final View mView;
         public ImageView imgThumbnail;
         public TextView name;
         public TextView description;
         public TextView price;
-        public final View mView;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -21,7 +21,7 @@ import com.vidya.lunchbox.utils.DeleteClickListener;
 import java.util.ArrayList;
 
 
-public class ViewCartAdapter  extends RecyclerView.Adapter<ViewCartAdapter.ViewHolder> {
+public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.ViewHolder> {
 
     ArrayList<Cart> mItems;
     Context mContext;
@@ -61,7 +61,6 @@ public class ViewCartAdapter  extends RecyclerView.Adapter<ViewCartAdapter.ViewH
                 .into(viewHolder.mProductthumbnail);
 
 
-
         //Call up the option button
         viewHolder.optionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +94,13 @@ public class ViewCartAdapter  extends RecyclerView.Adapter<ViewCartAdapter.ViewH
             }
         });
 
+        // Increase quantity
+        viewHolder.incQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
     }
 
     @Override
@@ -104,10 +109,10 @@ public class ViewCartAdapter  extends RecyclerView.Adapter<ViewCartAdapter.ViewH
         return mItems.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         public final ImageView mProductthumbnail, optionButton;
-        public final TextView mProductname, mProductdesc, mProductprice, mOtherdetails;
+        public final TextView mProductname, mProductdesc, mProductprice, mOtherdetails, incQuantity, decQuantity;
         public final View mView;
 
         public ViewHolder(View itemView) {
@@ -116,9 +121,12 @@ public class ViewCartAdapter  extends RecyclerView.Adapter<ViewCartAdapter.ViewH
             mProductname = (TextView) itemView.findViewById(R.id.productname);
             mProductdesc = (TextView) itemView.findViewById(R.id.productdesc);
             mProductprice = (TextView) itemView.findViewById(R.id.productprice);
-            mProductthumbnail =  (ImageView) itemView.findViewById(R.id.productimage);
+            mProductthumbnail = (ImageView) itemView.findViewById(R.id.productimage);
             mOtherdetails = (TextView) itemView.findViewById(R.id.otherdetails);
             optionButton = (ImageView) itemView.findViewById(R.id.more_menu_button);
+
+            incQuantity = (TextView) itemView.findViewById(R.id.tvIncreaseQuantity);
+            decQuantity = (TextView) itemView.findViewById(R.id.tvDecreaseQuantity);
         }
     }
 }
