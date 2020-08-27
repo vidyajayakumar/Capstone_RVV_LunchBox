@@ -7,6 +7,8 @@ public class Items implements java.io.Serializable {
     private int mPrice;
     private String mName;
     private int mThumbnail;
+    private String mStrength;
+    private int mQuantity;
 
     public String getmStrength() {
         return mStrength;
@@ -15,9 +17,6 @@ public class Items implements java.io.Serializable {
     public void setmStrength(String mStrength) {
         this.mStrength = mStrength;
     }
-
-    private String mStrength;
-    private int mQuantity;
 
     public String getProductid() {
         return mProductid;
