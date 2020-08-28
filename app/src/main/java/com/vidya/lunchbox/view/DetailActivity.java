@@ -60,6 +60,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         toolbar.setTitleTextColor(Color.WHITE);
         setActionBar(toolbar);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
