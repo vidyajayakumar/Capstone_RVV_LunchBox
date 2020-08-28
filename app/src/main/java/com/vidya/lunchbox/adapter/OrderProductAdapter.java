@@ -1,6 +1,7 @@
 package com.vidya.lunchbox.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +22,7 @@ import com.vidya.lunchbox.model.ItemMenu;
 import com.vidya.lunchbox.utils.DeleteClickListener;
 
 import java.util.ArrayList;
+import java.util.Base64;
 
 
 public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapter.ViewHolder> {
@@ -39,15 +42,19 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
         return new ViewHolder(v);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int i) {
         ItemMenu ct = mItems.get(i);
 
         viewHolder.productName.setText(ct.getItemName());
         viewHolder.productDesc.setText(ct.getItemDesc());
+
         viewHolder.productPrice.setText("$".concat(String.valueOf(ct.getPrice())));
 
-        Glide.with(mContext).load(ct.getItemImage()).into(viewHolder.imgProduct);
+        String pureBase64 = ct.getItemImage().split(",")[1];
+        final byte[] decodedBytes = Base64.getDecoder().decode(pureBase64);
+        Glide.with(mContext).load(decodedBytes).into(viewHolder.imgProduct);
     }
 
     @Override
