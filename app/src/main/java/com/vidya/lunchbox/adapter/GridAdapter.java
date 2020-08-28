@@ -44,6 +44,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         viewHolder.description.setText(nature.getItemDesc());
         viewHolder.price.setText("$".concat(String.valueOf(nature.getPrice())));
         //viewHolder.imgThumbnail.setImageResource(nature.getThumbnail());
+
         Glide.with(context).load(nature.getItemImage())
                 .into(viewHolder.imgThumbnail);
 

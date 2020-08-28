@@ -6,6 +6,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -29,11 +30,6 @@ import org.java_websocket.handshake.ServerHandshake;
 
 public class WebsocketStandalone extends AppCompatActivity {
 
-    Context context;
-
-    public WebsocketStandalone(Context applicationContext) {
-        this.context = context;
-    }
 
 
 
@@ -66,11 +62,9 @@ public class WebsocketStandalone extends AppCompatActivity {
 //                    sessionManager.getUserData().getEmail();
                     JsonNode actualObj = mapper.readTree(s);
                     if(actualObj.get("action").asText().contains("getAllProducts")){
-                        Intent intent = new Intent(context,ItemsActivity.class);
-                        intent.putExtra("CategoryId", "1dbb37fa-c442-4253-a22b-8791d4042e40");
-                        startActivity(intent);
+
                     }else if(actualObj.get("action").asText().contains("stockNotification")){
-                      sendNotification();
+                        Toast.makeText(getApplicationContext(),"Stock notificationt",Toast.LENGTH_SHORT).show();
                     }
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();

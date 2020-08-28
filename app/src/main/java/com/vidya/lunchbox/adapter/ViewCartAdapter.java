@@ -1,6 +1,7 @@
 package com.vidya.lunchbox.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +21,7 @@ import com.vidya.lunchbox.model.Cart;
 import com.vidya.lunchbox.utils.DeleteClickListener;
 
 import java.util.ArrayList;
+import java.util.Base64;
 
 
 public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.ViewHolder> {
@@ -43,6 +46,7 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.ViewHo
         return viewHolder;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int i) {
 
@@ -56,8 +60,11 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.ViewHo
 //        mOtherDetails = mOtherDetails.substring(0, mOtherDetails.length() - 4) + "...";
         viewHolder.mOtherdetails.setText(mOtherDetails);
 
+        String pureBase64 = ct.getThumbnail().split(",")[1];
+        final byte[] decodedBytes = Base64.getDecoder().decode(pureBase64);
+
         Glide.with(mContext)
-                .load(ct.getThumbnail())
+                .load(decodedBytes)
                 .into(viewHolder.mProductthumbnail);
 
 
