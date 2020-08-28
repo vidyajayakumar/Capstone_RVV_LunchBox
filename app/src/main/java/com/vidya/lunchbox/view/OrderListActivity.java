@@ -40,6 +40,8 @@ public class OrderListActivity extends AppCompatActivity implements ItemClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_list);
 
+        getSupportActionBar().setTitle("Your Orders");
+
         sessionManager = new SessionManager(getApplicationContext());
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewOrder);
         mRecyclerView.setHasFixedSize(true);

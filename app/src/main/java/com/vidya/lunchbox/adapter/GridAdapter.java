@@ -2,12 +2,14 @@ package com.vidya.lunchbox.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -17,6 +19,7 @@ import com.vidya.lunchbox.model.Items;
 import com.vidya.lunchbox.view.DetailActivity;
 
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
@@ -37,6 +40,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         return viewHolder;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int i) {
         ItemMenu nature = mItems.get(i);
@@ -45,7 +49,10 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         viewHolder.price.setText("$".concat(String.valueOf(nature.getPrice())));
         //viewHolder.imgThumbnail.setImageResource(nature.getThumbnail());
 
-        Glide.with(context).load(nature.getItemImage())
+        String pureBase64 = nature.getItemImage().split(",")[1];
+        final byte[] decodedBytes = Base64.getDecoder().decode(pureBase64);
+
+        Glide.with(context).load(decodedBytes)
                 .into(viewHolder.imgThumbnail);
 
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {

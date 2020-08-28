@@ -49,7 +49,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
 
         viewHolder.productName.setText(ct.getItemName());
         viewHolder.productDesc.setText(ct.getItemDesc());
-
+        viewHolder.productQty.setText(String.valueOf(ct.getQuantity()));
         viewHolder.productPrice.setText("$".concat(String.valueOf(ct.getPrice())));
 
         String pureBase64 = ct.getItemImage().split(",")[1];

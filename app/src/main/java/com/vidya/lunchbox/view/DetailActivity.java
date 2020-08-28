@@ -3,6 +3,7 @@ package com.vidya.lunchbox.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +27,7 @@ import com.vidya.lunchbox.model.ItemMenu;
 import com.vidya.lunchbox.model.Items;
 
 import java.util.ArrayList;
+import java.util.Base64;
 
 
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
@@ -44,6 +47,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private int quantitySelected;
     private String colorSelected;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +74,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         name.setText(mItem.getItemName());
         description.setText(mItem.getItemDesc());
         price.setText("$".concat(String.valueOf(mItem.getPrice())));
-        Glide.with(this).load(mItem.getItemImage()).into(imgThumbnail);
+
+        String pureBase64 = mItem.getItemImage().split(",")[1];
+        final byte[] decodedBytes = Base64.getDecoder().decode(pureBase64);
+        Glide.with(this).load(decodedBytes).into(imgThumbnail);
 
         /* for fill your Spinner */
         QuantityArray = new ArrayList<Integer>();
@@ -79,6 +86,11 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         QuantityArray.add(3);
         QuantityArray.add(4);
         QuantityArray.add(5);
+        QuantityArray.add(6);
+        QuantityArray.add(7);
+        QuantityArray.add(8);
+        QuantityArray.add(9);
+        QuantityArray.add(10);
 
         ArrayAdapter<Integer> qtyAdapter = new ArrayAdapter<Integer>(this,
                 android.R.layout.simple_spinner_item, QuantityArray);
