@@ -17,8 +17,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.vidya.lunchbox.R;
 import com.vidya.lunchbox.adapter.CategoryAdapter;
+import com.vidya.lunchbox.helper.SessionManager;
 import com.vidya.lunchbox.model.CategoryNew;
 import com.vidya.lunchbox.model.ItemMenu;
 import com.vidya.lunchbox.utils.CategoryNames;
@@ -35,6 +38,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.vidya.lunchbox.utils.WebsocketStandalone;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -47,6 +51,7 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
     ArrayList<CategoryNew> mItems;
     ArrayList<ItemMenu> dealItems;
     private StorageReference storageReference;
+    ObjectMapper mapper = new ObjectMapper();
 
     // Layout Manager
     RecyclerView.LayoutManager RecyclerViewLayoutManager;
@@ -57,6 +62,7 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categorylist);
+
 
         mItems = new ArrayList<>();
         dealItems = new ArrayList<ItemMenu>();
@@ -82,6 +88,21 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
         /*** Getting Menu Categories from Data ***/
         getAllCategories();
 
+        SessionManager sessionManager = new SessionManager(getApplicationContext());
+        sessionManager.getUserData().getEmail();
+        WebsocketStandalone websocketStandalone = new WebsocketStandalone();
+        websocketStandalone.connectWebSocket();
+        ObjectNode jsonNode = mapper.createObjectNode();
+        jsonNode.put("action","androidDeviceConnect");
+        jsonNode.put("userId",sessionManager.getUserData().getEmail());
+        try {
+            System.out.println(mapper.writeValueAsString(jsonNode));
+            System.out.println("sending data");
+            WebsocketStandalone.mWebSocketClient.send(mapper.writeValueAsString(jsonNode));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // Calling the RecyclerView
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
@@ -93,9 +114,11 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
         mAdapter = new CategoryAdapter(this, mItems);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setClickListener(this); // Bind the listener
+
     }
 
     private void getAllCategories() {
+
         mItems.clear();
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("categories");
         mDatabase.addValueEventListener(new ValueEventListener() {
@@ -113,6 +136,7 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
                 System.out.println("The read failed: " + databaseError.getMessage());
             }
         });
+
     }
 
     @Override
@@ -129,6 +153,7 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
             // action with ID action_settings was selected
             case R.id.action_settings:
                 Intent i = new Intent(CategoryListActivity.this, ProfileActivity.class);
+
                 startActivity(i);
                 break;
             case R.id.action_orders:
@@ -144,9 +169,10 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
 
     @Override
     public void onClick(int position) {
-        Intent intent = new Intent(CategoryListActivity.this, ItemsActivity.class);
-        intent.putExtra("CategoryId", mItems.get(position).getCatId());
-        startActivity(intent);
+
+       Intent intent = new Intent(CategoryListActivity.this, ItemsActivity.class);
+      intent.putExtra("CategoryId", mItems.get(position).getCatId());
+       startActivity(intent);
     }
 
 
