@@ -3,8 +3,6 @@ package com.vidya.lunchbox.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class CategoryNew implements Parcelable {
 

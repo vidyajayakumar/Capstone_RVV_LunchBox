@@ -1,6 +1,8 @@
 package com.vidya.lunchbox.view;
 
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +13,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.vidya.lunchbox.R;
 import com.vidya.lunchbox.helper.Functions;
 import com.vidya.lunchbox.helper.SessionManager;
@@ -29,6 +35,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.vidya.lunchbox.utils.WebsocketStandalone;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,6 +47,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private DatabaseReference mRef;
 
     private SessionManager session;
+    ObjectMapper mapper = new ObjectMapper();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -141,9 +149,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             User user = dataSnapshot.getValue(User.class);
                             session.setUserData(user);
                             session.setLogin(true);
-                            Intent i = new Intent(LoginActivity.this, CategoryListActivity.class);
-                            startActivity(i);
-                            finish();
+
+                            SessionManager sessionManager = new SessionManager(getApplicationContext());
+                            sessionManager.getUserData().getEmail();
+
+                            WebsocketStandalone websocketStandalone = new WebsocketStandalone(getApplicationContext());
+                            websocketStandalone.connectWebSocket();
+                            ObjectNode jsonNode = mapper.createObjectNode();
+                            jsonNode.put("action","androidDeviceConnect");
+                            jsonNode.put("userId",sessionManager.getUserData().getEmail());
+                            try {
+                                System.out.println(mapper.writeValueAsString(jsonNode));
+                                System.out.println("sending data");
+                                WebsocketStandalone.mWebSocketClient.send(mapper.writeValueAsString(jsonNode));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+
+                           // Intent i = new Intent(LoginActivity.this, CategoryListActivity.class);
+                           // startActivity(i);
+                           // finish();
                         }
                     }
 
@@ -152,5 +178,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Log.d("Databaseerror", databaseError + "");
                     }
                 });
+    }
+
+    public void showNotifications(){
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+        mBuilder.setSmallIcon(R.drawable.lunchboxicon);
+        mBuilder.setContentTitle("Notification Alert, Click Me!");
+        mBuilder.setContentText("Hi, This is Android Notification Detail!");
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(1,mBuilder.build());
     }
 }
