@@ -55,17 +55,18 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
         return mItems.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView imgProduct;
-        public TextView productName, productDesc, productPrice;
+        public TextView productName, productDesc, productQty, productPrice;
 
         public ViewHolder(View itemView) {
             super(itemView);
             productName = (TextView) itemView.findViewById(R.id.productName);
             productDesc = (TextView) itemView.findViewById(R.id.productDesc);
+            productQty = (TextView) itemView.findViewById(R.id.productQty);
             productPrice = (TextView) itemView.findViewById(R.id.productPrice);
-            imgProduct =  (ImageView) itemView.findViewById(R.id.imgProduct);
+            imgProduct = (ImageView) itemView.findViewById(R.id.imgProduct);
         }
     }
 }

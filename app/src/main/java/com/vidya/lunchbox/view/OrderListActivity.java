@@ -38,10 +38,10 @@ public class OrderListActivity extends AppCompatActivity implements ItemClickLis
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_categorylist);
+        setContentView(R.layout.activity_order_list);
 
         sessionManager = new SessionManager(getApplicationContext());
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewOrder);
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);

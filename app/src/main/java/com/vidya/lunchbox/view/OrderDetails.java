@@ -28,17 +28,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.vidya.lunchbox.model.Order;
 
 public class OrderDetails extends AppCompatActivity {
 
-    private TextView orderIdVal, orderStatus, dateTime;
+    private TextView orderIdVal, orderStatus, dateTime, orderTotal;
     private RecyclerView rvOrderedProducts;
     private Order order;
     private LinearLayoutManager mLayoutManager;
     private ArrayList<ItemMenu> products;
     private OrderProductAdapter mAdapter;
+    private double totalPrice = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class OrderDetails extends AppCompatActivity {
         orderIdVal = findViewById(R.id.orderIdVal);
         orderStatus = findViewById(R.id.orderStatus);
         dateTime = findViewById(R.id.dateTime);
+        orderTotal = findViewById(R.id.orderTotal);
         rvOrderedProducts = findViewById(R.id.rvOrderedProducts);
         rvOrderedProducts.setHasFixedSize(true);
 
@@ -69,7 +72,7 @@ public class OrderDetails extends AppCompatActivity {
         getProductsList(Utils.getArrFromString(order.getProductIds()));
     }
 
-    private void getProductsList(final ArrayList<String> productIds) {
+    private void getProductsList(final HashMap<String, String> productIds) {
         products.clear();
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("itemMenus");
         mDatabase.addValueEventListener(new ValueEventListener() {
@@ -77,10 +80,15 @@ public class OrderDetails extends AppCompatActivity {
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     ItemMenu menu = postSnapshot.getValue(ItemMenu.class);
-                    if (productIds.contains(menu.getItemId()))
+                    if (productIds.keySet().contains(menu.getItemId())) {
+                        int qty = Integer.parseInt(productIds.get(menu.getItemId()));
+                        totalPrice += qty * menu.getPrice();
+                        menu.setQuantity(qty);
                         products.add(menu);
+                    }
                 }
                 mAdapter.notifyDataSetChanged();
+                orderTotal.setText("$".concat(String.valueOf(totalPrice)));
             }
 
             @Override

@@ -52,13 +52,33 @@
         app:layout_constraintTop_toBottomOf="@+id/txtProductName" />
 
     <TextView
+        android:id="@+id/txtProductQty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Quantity : "
+        app:layout_constraintStart_toEndOf="@+id/imgProduct"
+        app:layout_constraintTop_toBottomOf="@+id/txtProductDesc" />
+
+    <TextView
+        android:id="@+id/productQty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/txtProductQty"
+        app:layout_constraintTop_toBottomOf="@+id/txtProductDesc" />
+
+    <TextView
         android:id="@+id/txtProductPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Price : "
-        app:layout_constraintStart_toEndOf="@+id/imgProduct"
+        app:layout_constraintEnd_toStartOf="@+id/productPrice"
         app:layout_constraintTop_toBottomOf="@+id/txtProductDesc" />
 
     <TextView
@@ -68,7 +88,7 @@
         android:layout_marginTop="8dp"
         android:textColor="@android:color/black"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/txtProductPrice"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtProductDesc" />
 
     <View

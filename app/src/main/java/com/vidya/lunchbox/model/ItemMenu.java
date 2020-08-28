@@ -22,9 +22,10 @@ public class ItemMenu implements Parcelable {
     private String itemDesc;
     private double price;
     private String itemImage;
+    private int quantity;
+    private boolean isDeal;
 
     public ItemMenu() {
-
     }
 
     protected ItemMenu(Parcel in) {
@@ -34,6 +35,24 @@ public class ItemMenu implements Parcelable {
         itemDesc = in.readString();
         price = in.readDouble();
         itemImage = in.readString();
+        quantity = in.readInt();
+        isDeal = in.readByte() != 0;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public boolean isDeal() {
+        return isDeal;
+    }
+
+    public void setDeal(boolean deal) {
+        isDeal = deal;
     }
 
     public String getCatId() {
@@ -97,5 +116,7 @@ public class ItemMenu implements Parcelable {
         dest.writeString(itemDesc);
         dest.writeDouble(price);
         dest.writeString(itemImage);
+        dest.writeInt(quantity);
+        dest.writeByte((byte) (isDeal ? 1 : 0));
     }
 }

@@ -1,6 +1,11 @@
 package com.vidya.lunchbox.view;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.braintreepayments.cardform.view.CardForm;
 import com.google.android.material.button.MaterialButton;
@@ -39,13 +45,15 @@ public class PaymentActivity extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
         cartArrayList = new ArrayList<>();
         getBundleData();
+//        sendNotification("Sample Vidya");
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                addOrderDetails(getOrder());
+                sendNotification("Heloo");
                 if (cardForm.isValid()) {
-                    addOrderDetails(getOrder());
                 } else {
 
                     Toast.makeText(PaymentActivity.this, "Please fill all required Details", Toast.LENGTH_SHORT).show();
@@ -85,7 +93,8 @@ public class PaymentActivity extends AppCompatActivity {
         String ids = "";
         for (int i = 0; i < cartArrayList.size(); i++) {
             Cart cart = cartArrayList.get(i);
-            ids = !ids.isEmpty() ? ids.concat(",").concat(cart.getProductid()) : ids.concat(cart.getProductid());
+            ids = !ids.isEmpty() ? ids.concat(",").concat(cart.getProductid()).concat(":").concat(String.valueOf(cart.getQuantity()))
+                    : ids.concat(cart.getProductid()).concat(":").concat(String.valueOf(cart.getQuantity()));
         }
         return ids;
     }
@@ -98,6 +107,7 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError == null) {
+                    sendNotification("Sample Vidya");
                     clearCart();
                     Log.e("TAG", "Order added : " + presenterId);
                 } else {
@@ -106,6 +116,24 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void sendNotification(String orderId) {
+
+        Intent intent = new Intent(PaymentActivity.this,OrderListActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(PaymentActivity.this,0,intent,0);
+        startActivity(intent);
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                Notification notification = new NotificationCompat.Builder(this,"LUNCHBOX")
+                        .setOngoing(true)
+                .setContentTitle("Some Message")
+                .setContentText("You've received new messages!")
+                .setSmallIcon(R.drawable.appicon)
+                .setContentIntent(pendingIntent).build();
+                notificationManager.notify(123,notification);
+
+    }
+
 
     private void getBundleData() {
         if (getIntent().getExtras() != null) {

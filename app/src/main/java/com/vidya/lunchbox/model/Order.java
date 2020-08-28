@@ -3,12 +3,16 @@ package com.vidya.lunchbox.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.HashMap;
+
 public class Order implements Parcelable {
 
     private String orderId;
     private String userId;
     private String productIds;
     private String status;
+
+//    private HashMap<String, String> hashMap = new HashMap<>();
 
     public Order(){
 
@@ -61,6 +65,7 @@ public class Order implements Parcelable {
         userId = in.readString();
         productIds = in.readString();
         status = in.readString();
+        dateTime = in.readLong();
     }
 
     public static final Creator<Order> CREATOR = new Creator<Order>() {
@@ -75,6 +80,7 @@ public class Order implements Parcelable {
         }
     };
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -86,5 +92,14 @@ public class Order implements Parcelable {
         dest.writeString(userId);
         dest.writeString(productIds);
         dest.writeString(status);
+        dest.writeLong(dateTime);
     }
+
+//    public HashMap<String, String> getHashMap() {
+//        return hashMap;
+//    }
+//
+//    public void setHashMap(HashMap<String, String> hashMap) {
+//        this.hashMap = hashMap;
+//    }
 }

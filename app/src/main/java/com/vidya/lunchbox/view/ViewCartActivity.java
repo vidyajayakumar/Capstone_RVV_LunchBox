@@ -173,6 +173,7 @@ public class ViewCartActivity extends AppCompatActivity {
 //                    showAlertDialog();
                     ItemsActivity.cs.clearCart(ViewCartActivity.this);
                     Intent i = new Intent(ViewCartActivity.this, PaymentActivity.class);
+                    i.putParcelableArrayListExtra("items",mItems);
                     // set the new task and clear flags
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);
