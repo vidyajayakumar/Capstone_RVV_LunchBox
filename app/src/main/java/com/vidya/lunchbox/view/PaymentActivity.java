@@ -52,8 +52,8 @@ public class PaymentActivity extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 addOrderDetails(getOrder());
+
 //                sendNotification("Heloo");
                 if (cardForm.isValid()) {
                 } else {
@@ -111,13 +111,21 @@ public class PaymentActivity extends AppCompatActivity {
                 if (databaseError == null) {
 //                    sendNotification("Sample Vidya");
                     clearCart();
+
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                         mNotificationUtils = new NotificationUtils(PaymentActivity.this);
+                        Intent notifyIntent = new Intent(PaymentActivity.this, OrderListActivity.class);
+                        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        PendingIntent notifyPendingIntent = PendingIntent.getActivity(
+                                PaymentActivity.this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT
+                        );
                         Notification.Builder nb = mNotificationUtils.
-                                getAndroidChannelNotification("You Ordered Successfully", "Your Order id is: " + presenterId);
+                                getAndroidChannelNotification("You Ordered Successfully", "Your Order id is: " + presenterId, notifyPendingIntent);
 
                         mNotificationUtils.getManager().notify(101, nb.build());
                     }
+
                     Log.e("TAG", "Order added : " + presenterId);
                 } else {
                     Log.e("TAG", "Failed to add", databaseError.toException());
