@@ -24,6 +24,7 @@ public class ItemMenu implements Parcelable {
     private String itemImage;
     private int quantity;
     private boolean isDeal;
+    private boolean inStock = true;
 
     public ItemMenu() {
     }
@@ -37,6 +38,8 @@ public class ItemMenu implements Parcelable {
         itemImage = in.readString();
         quantity = in.readInt();
         isDeal = in.readByte() != 0;
+        inStock = in.readByte() != 0;
+
     }
 
     public int getQuantity() {
@@ -118,5 +121,14 @@ public class ItemMenu implements Parcelable {
         dest.writeString(itemImage);
         dest.writeInt(quantity);
         dest.writeByte((byte) (isDeal ? 1 : 0));
+        dest.writeByte((byte) (inStock ? 1 : 0));
+    }
+
+    public boolean isInStock() {
+        return inStock;
+    }
+
+    public void setInStock(boolean inStock) {
+        this.inStock = inStock;
     }
 }

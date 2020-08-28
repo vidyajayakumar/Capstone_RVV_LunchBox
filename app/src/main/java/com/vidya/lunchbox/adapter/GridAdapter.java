@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,6 +46,12 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int i) {
         ItemMenu nature = mItems.get(i);
+
+        if (nature.isInStock())
+            viewHolder.rlOutOfStock.setVisibility(View.GONE);
+        else
+            viewHolder.rlOutOfStock.setVisibility(View.VISIBLE);
+
         viewHolder.name.setText(nature.getItemName());
         viewHolder.description.setText(nature.getItemDesc());
         viewHolder.price.setText("$".concat(String.valueOf(nature.getPrice())));
@@ -54,6 +62,14 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
         Glide.with(context).load(decodedBytes)
                 .into(viewHolder.imgThumbnail);
+
+        viewHolder.rlOutOfStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(context, "Out of Stock", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +95,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         public TextView name;
         public TextView description;
         public TextView price;
+        public RelativeLayout rlOutOfStock;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -87,6 +104,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
             name = (TextView) itemView.findViewById(R.id.name);
             description = (TextView) itemView.findViewById(R.id.description);
             price = (TextView) itemView.findViewById(R.id.price);
+            rlOutOfStock = (RelativeLayout) itemView.findViewById(R.id.rlOutOfStock);
         }
     }
 }
