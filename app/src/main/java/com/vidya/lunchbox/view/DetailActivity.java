@@ -87,16 +87,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         /* for fill your Spinner */
         QuantityArray = new ArrayList<Integer>();
-        QuantityArray.add(1);
-        QuantityArray.add(2);
-        QuantityArray.add(3);
-        QuantityArray.add(4);
-        QuantityArray.add(5);
-        QuantityArray.add(6);
-        QuantityArray.add(7);
-        QuantityArray.add(8);
-        QuantityArray.add(9);
-        QuantityArray.add(10);
+        for (int i = 1; i < 11; i++) {
+            QuantityArray.add(i);
+        }
 
         ArrayAdapter<Integer> qtyAdapter = new ArrayAdapter<Integer>(this,
                 android.R.layout.simple_spinner_item, QuantityArray);
