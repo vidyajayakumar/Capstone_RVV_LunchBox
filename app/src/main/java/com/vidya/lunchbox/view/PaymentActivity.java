@@ -24,6 +24,7 @@ import com.vidya.lunchbox.R;
 import com.vidya.lunchbox.helper.SessionManager;
 import com.vidya.lunchbox.model.Cart;
 import com.vidya.lunchbox.model.Order;
+import com.vidya.lunchbox.utils.NotificationUtils;
 import com.vidya.lunchbox.utils.OrderStatus;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class PaymentActivity extends AppCompatActivity {
     CardForm cardForm;
     private ArrayList<Cart> cartArrayList;
     private SessionManager session;
+    private NotificationUtils mNotificationUtils;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +54,7 @@ public class PaymentActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 addOrderDetails(getOrder());
-                sendNotification("Heloo");
+//                sendNotification("Heloo");
                 if (cardForm.isValid()) {
                 } else {
 
@@ -107,8 +109,15 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError == null) {
-                    sendNotification("Sample Vidya");
+//                    sendNotification("Sample Vidya");
                     clearCart();
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        mNotificationUtils = new NotificationUtils(PaymentActivity.this);
+                        Notification.Builder nb = mNotificationUtils.
+                                getAndroidChannelNotification("You Ordered Successfully", "Your Order id is: " + presenterId);
+
+                        mNotificationUtils.getManager().notify(101, nb.build());
+                    }
                     Log.e("TAG", "Order added : " + presenterId);
                 } else {
                     Log.e("TAG", "Failed to add", databaseError.toException());
@@ -119,18 +128,18 @@ public class PaymentActivity extends AppCompatActivity {
 
     public void sendNotification(String orderId) {
 
-        Intent intent = new Intent(PaymentActivity.this,OrderListActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(PaymentActivity.this,0,intent,0);
+        Intent intent = new Intent(PaymentActivity.this, OrderListActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(PaymentActivity.this, 0, intent, 0);
         startActivity(intent);
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                Notification notification = new NotificationCompat.Builder(this,"LUNCHBOX")
-                        .setOngoing(true)
+        Notification notification = new NotificationCompat.Builder(this, "LUNCHBOX")
+                .setOngoing(true)
                 .setContentTitle("Some Message")
                 .setContentText("You've received new messages!")
                 .setSmallIcon(R.drawable.appicon)
                 .setContentIntent(pendingIntent).build();
-                notificationManager.notify(123,notification);
+        notificationManager.notify(123, notification);
 
     }
 

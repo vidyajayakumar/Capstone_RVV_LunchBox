@@ -153,7 +153,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             SessionManager sessionManager = new SessionManager(getApplicationContext());
                             sessionManager.getUserData().getEmail();
 
-                            WebsocketStandalone websocketStandalone = new WebsocketStandalone(getApplicationContext());
+                            WebsocketStandalone websocketStandalone = new WebsocketStandalone();
                             websocketStandalone.connectWebSocket();
                             ObjectNode jsonNode = mapper.createObjectNode();
                             jsonNode.put("action","androidDeviceConnect");

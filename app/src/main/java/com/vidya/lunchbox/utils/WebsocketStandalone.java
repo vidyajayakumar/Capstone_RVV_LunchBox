@@ -31,8 +31,6 @@ import org.java_websocket.handshake.ServerHandshake;
 public class WebsocketStandalone extends AppCompatActivity {
 
 
-
-
     public static WebSocketClient mWebSocketClient;
 
     ObjectMapper mapper = new ObjectMapper();
