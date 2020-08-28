@@ -38,8 +38,8 @@ public class WebsocketStandalone extends AppCompatActivity {
     public void connectWebSocket() {
         URI uri;
         try {
-          //  uri = new URI("ws://ec2-54-144-155-131.compute-1.amazonaws.com:8080/ws/LunchBox");
-            uri = new URI("ws://192.168.0.21:8080/ws/LunchBox");
+            uri = new URI("ws://ec2-54-144-155-131.compute-1.amazonaws.com:8080/ws/LunchBox");
+            //uri = new URI("ws://192.168.0.21:8080/ws/LunchBox");
         } catch (URISyntaxException e) {
             e.printStackTrace();
             return;
