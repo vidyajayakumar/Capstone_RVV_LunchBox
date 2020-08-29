@@ -81,9 +81,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         description.setText(mItem.getItemDesc());
         price.setText("$".concat(String.valueOf(mItem.getPrice())));
 
-        String pureBase64 = mItem.getItemImage().split(",")[1];
-        final byte[] decodedBytes = Base64.getDecoder().decode(pureBase64);
-        Glide.with(this).load(decodedBytes).into(imgThumbnail);
+       /* String pureBase64 = mItem.getItemImage().split(",")[1];
+        final byte[] decodedBytes = Base64.getDecoder().decode(pureBase64);*/
+        Glide.with(this).load(mItem.getItemImage()).into(imgThumbnail).onLoadFailed(new Exception(),getResources().getDrawable(R.drawable.appicon));
 
         /* for fill your Spinner */
         QuantityArray = new ArrayList<Integer>();

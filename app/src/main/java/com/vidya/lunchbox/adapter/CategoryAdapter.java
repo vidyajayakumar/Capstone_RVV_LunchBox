@@ -47,9 +47,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final CategoryNew myListData = listdata.get(position);
         holder.textView.setText(myListData.getCatName());
-        String pureBase64 = myListData.getCatImage().split(",")[1];
-        final byte[] decodedBytes = Base64.getDecoder().decode(pureBase64);
-        Glide.with(mcontext).load(decodedBytes).into(holder.imageView);
+      /*  String pureBase64 = myListData.getCatImage().split(",")[1];
+        final byte[] decodedBytes = Base64.getDecoder().decode(pureBase64);*/
+        Glide.with(mcontext).load(myListData.getCatImage()).into(holder.imageView);
         holder.description.setVisibility(View.GONE);
         holder.price.setVisibility(View.GONE);
         holder.cardView.setOnClickListener(new View.OnClickListener() {

@@ -18,10 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.vidya.lunchbox.R;
 import com.vidya.lunchbox.adapter.CategoryAdapter;
-import com.vidya.lunchbox.helper.SessionManager;
 import com.vidya.lunchbox.model.CategoryNew;
 import com.vidya.lunchbox.model.ItemMenu;
 import com.vidya.lunchbox.utils.CategoryNames;
@@ -38,7 +36,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.vidya.lunchbox.utils.WebsocketStandalone;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -88,7 +85,7 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
         /*** Getting Menu Categories from Data ***/
         getAllCategories();
 
-        SessionManager sessionManager = new SessionManager(getApplicationContext());
+  /*      SessionManager sessionManager = new SessionManager(getApplicationContext());
         sessionManager.getUserData().getEmail();
         WebsocketStandalone websocketStandalone = new WebsocketStandalone();
         websocketStandalone.connectWebSocket();
@@ -101,7 +98,7 @@ public class CategoryListActivity extends AppCompatActivity implements ItemClick
             WebsocketStandalone.mWebSocketClient.send(mapper.writeValueAsString(jsonNode));
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
         // Calling the RecyclerView
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);

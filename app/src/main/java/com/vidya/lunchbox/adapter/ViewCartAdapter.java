@@ -59,12 +59,12 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.ViewHo
         String mOtherDetails = /*"Size: " + ct.getmStrength() + */"  Qty: " + Integer.toString(ct.getQuantity());
 //        mOtherDetails = mOtherDetails.substring(0, mOtherDetails.length() - 4) + "...";
         viewHolder.mOtherdetails.setText(mOtherDetails);
-
+/*
         String pureBase64 = ct.getThumbnail().split(",")[1];
-        final byte[] decodedBytes = Base64.getDecoder().decode(pureBase64);
+        final byte[] decodedBytes = Base64.getDecoder().decode(pureBase64);*/
 
         Glide.with(mContext)
-                .load(decodedBytes)
+                .load(ct.getThumbnail())
                 .into(viewHolder.mProductthumbnail);
 
 

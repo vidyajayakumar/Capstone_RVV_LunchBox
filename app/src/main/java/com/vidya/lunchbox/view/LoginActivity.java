@@ -15,9 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.vidya.lunchbox.R;
 import com.vidya.lunchbox.helper.Functions;
 import com.vidya.lunchbox.helper.SessionManager;
@@ -35,7 +33,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.vidya.lunchbox.utils.WebsocketStandalone;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -150,7 +147,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             session.setUserData(user);
                             session.setLogin(true);
 
-                            SessionManager sessionManager = new SessionManager(getApplicationContext());
+                         /*   SessionManager sessionManager = new SessionManager(getApplicationContext());
                             sessionManager.getUserData().getEmail();
 
                             WebsocketStandalone websocketStandalone = new WebsocketStandalone();
@@ -164,7 +161,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 WebsocketStandalone.mWebSocketClient.send(mapper.writeValueAsString(jsonNode));
                             } catch (Exception e) {
                                 e.printStackTrace();
-                            }
+                            }*/
 
 
                             Intent i = new Intent(LoginActivity.this, CategoryListActivity.class);

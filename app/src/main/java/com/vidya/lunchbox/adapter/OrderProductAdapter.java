@@ -52,9 +52,9 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
         viewHolder.productQty.setText(String.valueOf(ct.getQuantity()));
         viewHolder.productPrice.setText("$".concat(String.valueOf(ct.getPrice())));
 
-        String pureBase64 = ct.getItemImage().split(",")[1];
-        final byte[] decodedBytes = Base64.getDecoder().decode(pureBase64);
-        Glide.with(mContext).load(decodedBytes).into(viewHolder.imgProduct);
+      /*  String pureBase64 = ct.getItemImage().split(",")[1];
+        final byte[] decodedBytes = Base64.getDecoder().decode(pureBase64);*/
+        Glide.with(mContext).load(ct.getItemImage()).into(viewHolder.imgProduct);
     }
 
     @Override

@@ -56,12 +56,12 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         viewHolder.description.setText(nature.getItemDesc());
         viewHolder.price.setText("$".concat(String.valueOf(nature.getPrice())));
         //viewHolder.imgThumbnail.setImageResource(nature.getThumbnail());
-
+/*
         String pureBase64 = nature.getItemImage().split(",")[1];
-        final byte[] decodedBytes = Base64.getDecoder().decode(pureBase64);
+        final byte[] decodedBytes = Base64.getDecoder().decode(pureBase64);*/
 
-        Glide.with(context).load(decodedBytes)
-                .into(viewHolder.imgThumbnail);
+        Glide.with(context).load(nature.getItemImage())
+                .into(viewHolder.imgThumbnail).onLoadFailed(new Exception(),context.getResources().getDrawable(R.drawable.appicon));
 
         viewHolder.rlOutOfStock.setOnClickListener(new View.OnClickListener() {
             @Override
